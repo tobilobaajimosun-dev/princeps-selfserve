@@ -67,6 +67,9 @@ export interface BvnDraft {
   value: string;
   verified: boolean;
   matchedName?: string;
+  dateOfBirth?: string;
+  phone?: string;
+  address?: { street?: string; state?: string; lga?: string };
 }
 
 export interface NinDraft {

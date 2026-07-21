@@ -31,8 +31,8 @@ export class BvnComponent {
   readonly canSubmit = computed(() => this.status() === 'VALID' && !this.submitting());
 
   constructor() {
-    if (!this.state.profile()) {
-      void this.router.navigateByUrl('/apply/profile');
+    if (!this.state.salary()) {
+      void this.router.navigateByUrl('/apply/salary');
       return;
     }
     const saved = this.state.bvn();
@@ -61,8 +61,7 @@ export class BvnComponent {
     this.submitting.set(true);
     this.serverError.set(null);
     try {
-      const profile = this.state.profile();
-      const res = await this.api.verifyBvn(this.bvn.value, profile?.fullName ?? '');
+      const res = await this.api.verifyBvn(this.bvn.value, '');
       if (res.status !== 'ok') {
         this.serverError.set(res.status);
         return;
@@ -71,6 +70,9 @@ export class BvnComponent {
         value: this.bvn.value,
         verified: true,
         matchedName: res.matchedName,
+        dateOfBirth: res.dateOfBirth,
+        phone: res.phone,
+        address: res.address,
       });
       await this.router.navigateByUrl('/apply/nin');
     } finally {

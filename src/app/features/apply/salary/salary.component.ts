@@ -167,7 +167,7 @@ export class SalaryComponent {
         paramilitaryEmployer: v.employer || undefined,
         monthlyIncome: res.monthlyIncome,
       });
-      await this.router.navigateByUrl('/apply/profile');
+      await this.router.navigateByUrl('/apply/bvn');
     } finally {
       this.submitting.set(false);
     }

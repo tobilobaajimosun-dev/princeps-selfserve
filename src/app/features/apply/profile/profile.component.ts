@@ -39,10 +39,11 @@ export class ProfileComponent {
   });
 
   readonly submitting = signal(false);
+  readonly prefilledFromBvn = signal(false);
 
   constructor() {
-    if (!this.state.salary()) {
-      void this.router.navigateByUrl('/apply/salary');
+    if (!this.state.nin()?.verified) {
+      void this.router.navigateByUrl('/apply/nin');
       return;
     }
     const saved = this.state.profile();
@@ -56,6 +57,18 @@ export class ProfileComponent {
         relationshipStatus: saved.relationshipStatus,
         religion: saved.religion ?? '',
       });
+      return;
+    }
+    const bvn = this.state.bvn();
+    if (bvn?.verified) {
+      this.form.patchValue({
+        fullName: bvn.matchedName ?? '',
+        dateOfBirth: bvn.dateOfBirth ?? '',
+        street: bvn.address?.street ?? '',
+        stateName: bvn.address?.state ?? '',
+        lga: bvn.address?.lga ?? '',
+      });
+      this.prefilledFromBvn.set(true);
     }
   }
 
@@ -70,6 +83,6 @@ export class ProfileComponent {
       relationshipStatus: v.relationshipStatus,
       religion: v.religion.trim() || undefined,
     });
-    void this.router.navigateByUrl('/apply/bvn');
+    void this.router.navigateByUrl('/apply/eligibility');
   }
 }

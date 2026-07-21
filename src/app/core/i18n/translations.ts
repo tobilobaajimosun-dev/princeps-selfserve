@@ -164,6 +164,7 @@ const en: Dict = {
   'step.profile.religion.label': 'Religion (optional)',
   'step.profile.religion.hint': 'Helps us personalise offers. Skip if you\'d rather not say.',
   'step.profile.continue': 'Continue',
+  'step.profile.prefilled': 'We\'ve prefilled your details from your BVN. Please check and correct anything that isn\'t right.',
 
   'step.bvn.eyebrow': 'Identity check',
   'step.bvn.title': 'Your BVN',
@@ -412,6 +413,7 @@ const yo: Dict = {
   'step.profile.religion.label': 'Ẹ̀sìn (yíyàn)',
   'step.profile.religion.hint': 'Ń jẹ́ ká ṣe ìfilọ̀ pàtàkì fún ọ. Fò kọjá bí o kò bá fẹ́.',
   'step.profile.continue': 'Tẹsíwájú',
+  'step.profile.prefilled': 'A ti fi àwọn àlàyé rẹ láti inú BVN rẹ. Jọ̀wọ́ ṣàyẹ̀wò kí o sì ṣàtúnṣe ohun tí kò tọ́.',
 
   'step.bvn.eyebrow': 'Ìjẹ́rìí ìdánimọ̀',
   'step.bvn.title': 'BVN rẹ',
@@ -660,6 +662,7 @@ const ig: Dict = {
   'step.profile.religion.label': 'Okpukpe (nhọrọ)',
   'step.profile.religion.hint': 'Na-eme ka anyị chepụta onyinye kacha mma. Wụfee ma ị chọghị.',
   'step.profile.continue': 'Gaa n’ihu',
+  'step.profile.prefilled': 'Anyị ejirila ozi gị si na BVN gị dejuo. Biko lelee ma dozie ihe ọ bụla na-adịghị mma.',
 
   'step.bvn.eyebrow': 'Nyocha njirimara',
   'step.bvn.title': 'BVN gị',
@@ -908,6 +911,7 @@ const ha: Dict = {
   'step.profile.religion.label': 'Addini (na son rai)',
   'step.profile.religion.hint': 'Yana taimaka mana mu tsara tayi mafi kyau. Tsallake idan ba ka so.',
   'step.profile.continue': 'Ci gaba',
+  'step.profile.prefilled': 'Mun riga mun cika bayananka daga BVN. Da fatan za a duba a gyara duk abin da ba daidai ba.',
 
   'step.bvn.eyebrow': 'Tabbatar da tantancewa',
   'step.bvn.title': 'BVN ɗinka',

@@ -112,14 +112,8 @@ export const routes: Routes = [
           import('./features/apply/salary/salary.component').then((m) => m.SalaryComponent),
       },
       {
-        path: 'profile',
-        canMatch: [requiresSalaryGuard],
-        loadComponent: () =>
-          import('./features/apply/profile/profile.component').then((m) => m.ProfileComponent),
-      },
-      {
         path: 'bvn',
-        canMatch: [requiresProfileGuard],
+        canMatch: [requiresSalaryGuard],
         loadComponent: () =>
           import('./features/apply/bvn/bvn.component').then((m) => m.BvnComponent),
       },
@@ -130,8 +124,14 @@ export const routes: Routes = [
           import('./features/apply/nin/nin.component').then((m) => m.NinComponent),
       },
       {
-        path: 'eligibility',
+        path: 'profile',
         canMatch: [requiresNinGuard],
+        loadComponent: () =>
+          import('./features/apply/profile/profile.component').then((m) => m.ProfileComponent),
+      },
+      {
+        path: 'eligibility',
+        canMatch: [requiresProfileGuard],
         loadComponent: () =>
           import('./features/apply/eligibility/eligibility.component').then(
             (m) => m.EligibilityComponent,
@@ -139,7 +139,7 @@ export const routes: Routes = [
       },
       {
         path: 'offers',
-        canMatch: [requiresNinGuard],
+        canMatch: [requiresProfileGuard],
         loadComponent: () =>
           import('./features/apply/offers/offers.component').then((m) => m.OffersComponent),
       },

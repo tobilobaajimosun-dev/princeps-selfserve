@@ -61,14 +61,14 @@ export class NinComponent {
     this.submitting.set(true);
     this.serverError.set(null);
     try {
-      const profile = this.state.profile();
-      const res = await this.api.verifyNin(this.nin.value, profile?.fullName ?? '');
+      const bvnMatchedName = this.state.bvn()?.matchedName ?? '';
+      const res = await this.api.verifyNin(this.nin.value, bvnMatchedName);
       if (res.status !== 'ok') {
         this.serverError.set(res.status);
         return;
       }
       this.state.setNin({ value: this.nin.value, verified: true });
-      await this.router.navigateByUrl('/apply/eligibility');
+      await this.router.navigateByUrl('/apply/profile');
     } finally {
       this.submitting.set(false);
     }

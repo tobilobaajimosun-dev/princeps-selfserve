@@ -18,8 +18,15 @@ export type SalaryVerifyResult =
   | { status: 'not-found' }
   | { status: 'service-down' };
 
+export interface BvnPrefill {
+  matchedName: string;
+  dateOfBirth?: string;
+  phone?: string;
+  address?: { street?: string; state?: string; lga?: string };
+}
+
 export type BvnVerifyResult =
-  | { status: 'ok'; matchedName: string }
+  | ({ status: 'ok' } & BvnPrefill)
   | { status: 'name-mismatch'; matchedName: string }
   | { status: 'not-found' }
   | { status: 'service-down' };
@@ -168,7 +175,13 @@ export class MockApiClient implements ApiClient {
     if (bvn === '99999999999') return { status: 'service-down' };
     if (bvn === '00000000000') return { status: 'not-found' };
     if (bvn === '11111111111') return { status: 'name-mismatch', matchedName: 'A. Different' };
-    return { status: 'ok', matchedName: 'A. Adeyemi' };
+    return {
+      status: 'ok',
+      matchedName: 'Adeola Adeyemi',
+      dateOfBirth: '1993-04-18',
+      phone: '+2348031112233',
+      address: { street: '14 Adeniyi Jones Avenue', state: 'Lagos', lga: 'Ikeja' },
+    };
   }
 
   async verifyNin(nin: string, _fullName: string): Promise<BvnVerifyResult> {
@@ -176,7 +189,7 @@ export class MockApiClient implements ApiClient {
     if (nin === '99999999999') return { status: 'service-down' };
     if (nin === '00000000000') return { status: 'not-found' };
     if (nin === '11111111111') return { status: 'name-mismatch', matchedName: 'A. Different' };
-    return { status: 'ok', matchedName: 'A. Adeyemi' };
+    return { status: 'ok', matchedName: 'Adeola Adeyemi' };
   }
 
   async uploadDocument(input: DocUploadInput): Promise<DocUploadResult> {
