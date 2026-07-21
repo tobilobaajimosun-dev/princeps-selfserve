@@ -6,6 +6,7 @@ import { TPipe } from '../../../core/i18n/t.pipe';
 import { WizardProgressComponent } from '../wizard-progress.component';
 import { API_CLIENT } from '../../../core/api/api-client';
 import { ApplicationStateService } from '../../../core/application/application-state.service';
+import { ToastService } from '../../../core/toast/toast.service';
 
 @Component({
   selector: 'app-bvn',
@@ -18,6 +19,7 @@ export class BvnComponent {
   private readonly api = inject(API_CLIENT);
   private readonly state = inject(ApplicationStateService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   readonly bvn = new FormControl('', {
     nonNullable: true,
@@ -64,6 +66,9 @@ export class BvnComponent {
       const res = await this.api.verifyBvn(this.bvn.value, '');
       if (res.status !== 'ok') {
         this.serverError.set(res.status);
+        if (res.status === 'not-found') this.toast.error('BVN not found. Check the 11 digits and try again.');
+        else if (res.status === 'name-mismatch') this.toast.error('BVN name doesn\'t match. Please check the BVN.');
+        else this.toast.error('BVN service unavailable. Try again in a moment.');
         return;
       }
       this.state.setBvn({
@@ -74,6 +79,7 @@ export class BvnComponent {
         phone: res.phone,
         address: res.address,
       });
+      this.toast.success(`BVN verified · ${res.matchedName}`);
       await this.router.navigateByUrl('/apply/nin');
     } finally {
       this.submitting.set(false);

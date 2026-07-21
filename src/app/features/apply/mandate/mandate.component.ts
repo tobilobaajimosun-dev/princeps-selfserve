@@ -21,12 +21,25 @@ export class MandateComponent {
   readonly agreed = signal(false);
   readonly formatNaira = formatNaira;
 
+  readonly employment = this.state.employment;
+
   readonly channelKey = computed(() => {
     const c = this.salary()?.channel;
     if (c === 'ippis') return 'step.mandate.channel.ippis';
     if (c === 'remita') return 'step.mandate.channel.remita';
     return 'step.mandate.channel.dedukt';
   });
+
+  readonly channelDescKey = computed(() => {
+    const c = this.salary()?.channel;
+    if (c === 'ippis') return 'step.mandate.channel.ippis.desc';
+    if (c === 'remita') return 'step.mandate.channel.remita.desc';
+    return 'step.mandate.channel.dedukt.desc';
+  });
+
+  readonly isCorperMonoCharge = computed(() =>
+    this.employment()?.type === 'corper' && this.salary()?.channel === 'dedukt',
+  );
 
   readonly monthlyRepayment = computed(() => this.offer()?.monthlyRepayment ?? 0);
   readonly tenorMonths = computed(() => this.offer()?.tenorMonths ?? 0);

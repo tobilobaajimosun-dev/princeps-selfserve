@@ -14,6 +14,42 @@
 
 .subtitle { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ink-soft); max-width: 42ch; }
 
+.channel-explainer {
+  padding: var(--space-4);
+  background: var(--surface-2, color-mix(in srgb, var(--action-primary) 6%, transparent));
+  border-radius: var(--radius-md, 10px);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.channel-badge {
+  align-self: flex-start;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+  font-weight: 600; color: var(--action-primary);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--action-primary) 12%, transparent);
+}
+.channel-desc { margin: 0; font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+
+.mono-notice {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--orange-500, #f97316) 10%, transparent);
+  border-left: 3px solid var(--orange-500, #f97316);
+  border-radius: 6px;
+}
+.mono-icon { color: var(--orange-500, #f97316); flex: none; margin-top: 2px; }
+.mono-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.mono-headline { margin: 0; font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; }
+.mono-copy { margin: 0; font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+
+@media (max-width: 380px) {
+  .channel-explainer { padding: var(--space-3); }
+  .channel-desc { font-size: 12px; }
+  .mono-notice { padding: var(--space-3); }
+  .mono-headline { font-size: 13px; }
+  .mono-copy { font-size: 12px; }
+}
+
 .card {
   background: var(--surface-0);
   border: 1px solid var(--hairline);

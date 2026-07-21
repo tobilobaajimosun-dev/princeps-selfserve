@@ -6,6 +6,7 @@ import { TPipe } from '../../../core/i18n/t.pipe';
 import { WizardProgressComponent } from '../wizard-progress.component';
 import { API_CLIENT } from '../../../core/api/api-client';
 import { ApplicationStateService } from '../../../core/application/application-state.service';
+import { ToastService } from '../../../core/toast/toast.service';
 
 @Component({
   selector: 'app-nin',
@@ -18,6 +19,7 @@ export class NinComponent {
   private readonly api = inject(API_CLIENT);
   private readonly state = inject(ApplicationStateService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   readonly nin = new FormControl('', {
     nonNullable: true,
@@ -65,9 +67,13 @@ export class NinComponent {
       const res = await this.api.verifyNin(this.nin.value, bvnMatchedName);
       if (res.status !== 'ok') {
         this.serverError.set(res.status);
+        if (res.status === 'not-found') this.toast.error('NIN not found. Check the 11 digits and try again.');
+        else if (res.status === 'name-mismatch') this.toast.error('NIN name doesn\'t match your BVN. Please check the NIN.');
+        else this.toast.error('NIN service unavailable. Try again in a moment.');
         return;
       }
       this.state.setNin({ value: this.nin.value, verified: true });
+      this.toast.success('NIN verified');
       await this.router.navigateByUrl('/apply/profile');
     } finally {
       this.submitting.set(false);
