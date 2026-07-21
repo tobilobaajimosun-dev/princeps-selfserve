@@ -90,7 +90,11 @@ export class ContactComponent {
     try {
       const result = await this.api.lookupContact({ phone, email });
       this.state.setContact({ phone, email });
-      this.state.setReturningCustomer(result.kind === 'returning');
+      if (result.kind === 'returning') {
+        this.state.setReturningCustomer(true, result.snapshot);
+      } else {
+        this.state.setReturningCustomer(false, null);
+      }
       await this.router.navigateByUrl('/apply/verify');
     } catch {
       this.serverError.set(this.lang.t('step.contact.error.generic'));

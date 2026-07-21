@@ -109,10 +109,21 @@ export interface SubmissionDraft {
   referenceId?: string;
 }
 
+export interface ReturningSnapshotDraft {
+  fullName: string;
+  lastLoanAt: string;
+  employmentType: 'government' | 'paramilitary' | 'corper';
+  employerName: string;
+  bankName: string;
+  accountLast4: string;
+  monthlyIncome: number;
+}
+
 export interface ApplicationDraft {
   contact: ContactDraft | null;
   phoneVerified: boolean;
   isReturningCustomer: boolean;
+  returningSnapshot: ReturningSnapshotDraft | null;
   employment: EmploymentDraft | null;
   salary: SalaryDraft | null;
   eligibility: EligibilityDraft | null;
@@ -129,6 +140,7 @@ const empty: ApplicationDraft = {
   contact: null,
   phoneVerified: false,
   isReturningCustomer: false,
+  returningSnapshot: null,
   employment: null,
   salary: null,
   eligibility: null,
@@ -148,6 +160,7 @@ export class ApplicationStateService {
   readonly contact = computed(() => this.state().contact);
   readonly phoneVerified = computed(() => this.state().phoneVerified);
   readonly isReturningCustomer = computed(() => this.state().isReturningCustomer);
+  readonly returningSnapshot = computed(() => this.state().returningSnapshot);
   readonly employment = computed(() => this.state().employment);
   readonly salary = computed(() => this.state().salary);
   readonly eligibility = computed(() => this.state().eligibility);
@@ -167,8 +180,12 @@ export class ApplicationStateService {
     this.state.update((s) => ({ ...s, phoneVerified: true }));
   }
 
-  setReturningCustomer(isReturning: boolean): void {
-    this.state.update((s) => ({ ...s, isReturningCustomer: isReturning }));
+  setReturningCustomer(isReturning: boolean, snapshot: ReturningSnapshotDraft | null = null): void {
+    this.state.update((s) => ({
+      ...s,
+      isReturningCustomer: isReturning,
+      returningSnapshot: snapshot,
+    }));
   }
 
   setEmployment(employment: EmploymentDraft): void {

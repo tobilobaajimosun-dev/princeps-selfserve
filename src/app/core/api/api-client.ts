@@ -1,8 +1,18 @@
 import { InjectionToken, Injectable } from '@angular/core';
 
+export interface ReturningProfileSnapshot {
+  fullName: string;
+  lastLoanAt: string;
+  employmentType: 'government' | 'paramilitary' | 'corper';
+  employerName: string;
+  bankName: string;
+  accountLast4: string;
+  monthlyIncome: number;
+}
+
 export type LookupResult =
   | { kind: 'new' }
-  | { kind: 'returning'; profileHint: string };
+  | { kind: 'returning'; profileHint: string; snapshot: ReturningProfileSnapshot };
 
 export interface SalaryVerifyInput {
   channel: 'remita' | 'ippis' | 'dedukt';
@@ -159,7 +169,19 @@ export class MockApiClient implements ApiClient {
   async lookupContact(input: { phone: string; email: string }): Promise<LookupResult> {
     await delay(600);
     if (input.email.toLowerCase() === 'returning@princeps.ng') {
-      return { kind: 'returning', profileHint: 'A. Adeyemi' };
+      return {
+        kind: 'returning',
+        profileHint: 'A. Adeyemi',
+        snapshot: {
+          fullName: 'Adeola Adeyemi',
+          lastLoanAt: '2026-03-14',
+          employmentType: 'government',
+          employerName: 'Federal Ministry of Works',
+          bankName: 'Guaranty Trust Bank',
+          accountLast4: '4472',
+          monthlyIncome: 180_000,
+        },
+      };
     }
     return { kind: 'new' };
   }

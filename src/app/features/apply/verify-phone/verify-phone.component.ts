@@ -135,7 +135,8 @@ export class VerifyPhoneComponent implements OnInit, AfterViewInit, OnDestroy {
       const res = await this.api.verifyPhoneOtp(contact.phone, this.code());
       if (res.status === 'ok') {
         this.state.markPhoneVerified();
-        await this.router.navigateByUrl('/apply/employment');
+        const next = this.state.isReturningCustomer() ? '/apply/welcome-back' : '/apply/employment';
+        await this.router.navigateByUrl(next);
         return;
       }
       if (res.status === 'wrong') this.error.set({ kind: 'wrong' });

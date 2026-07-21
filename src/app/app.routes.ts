@@ -92,6 +92,14 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'welcome-back',
+        canMatch: [requiresContactGuard, requiresPhoneVerifiedGuard],
+        loadComponent: () =>
+          import('./features/apply/welcome-back/welcome-back.component').then(
+            (m) => m.WelcomeBackComponent,
+          ),
+      },
+      {
         path: 'employment',
         canMatch: [requiresContactGuard, requiresPhoneVerifiedGuard],
         loadComponent: () =>
