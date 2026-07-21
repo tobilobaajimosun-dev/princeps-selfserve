@@ -83,6 +83,8 @@ const en: Dict = {
   'step.employment.coming.soon.body': 'We don\'t serve this segment yet — join the waitlist and we\'ll let you know.',
   'step.employment.corper.months.label': 'Months left in service',
   'step.employment.corper.months.hint': 'Between 1 and 11.',
+  'step.employment.corper.cap.headline': 'NYSC loans are capped at ₦50,000',
+  'step.employment.corper.cap.body': 'Your maximum offer will not exceed ₦50,000, and the tenor must end before your service year does. We show this now so you\'re not surprised at the offer step.',
   'step.employment.continue': 'Continue',
 
   'waitlist.title': 'We\'re not there yet',
@@ -370,6 +372,8 @@ const yo: Dict = {
   'step.employment.coming.soon.body': 'A kò tíì ṣèránṣẹ́ fún ẹgbẹ́ yìí — dara pọ̀ mọ́ àkọsílẹ̀ ìdúró.',
   'step.employment.corper.months.label': 'Àwọn oṣù tí ó kù nínú iṣẹ́',
   'step.employment.corper.months.hint': 'Láàrin 1 sí 11.',
+  'step.employment.corper.cap.headline': 'Àwin NYSC kò lè ju ₦50,000 lọ',
+  'step.employment.corper.cap.body': 'Àwin rẹ kò ní ju ₦50,000 lọ, àti pé àkókò ìsanpadà gbọ́dọ̀ parí kí ọdún iṣẹ́ rẹ tó pari. A ń sọ èyí báyìí kí ó má bà á jẹ́ ìyàlẹ́nu níwájú.',
   'step.employment.continue': 'Tẹsíwájú',
 
   'waitlist.title': 'A kò tíì débẹ̀',
@@ -657,6 +661,8 @@ const ig: Dict = {
   'step.employment.coming.soon.body': 'Anyị ejeghịzi ozi otu a — sonye n’ndepụta nchere.',
   'step.employment.corper.months.label': 'Ọnwa fọdụrụ n’ozi',
   'step.employment.corper.months.hint': 'N’etiti 1 na 11.',
+  'step.employment.corper.cap.headline': 'Mbinye NYSC agaghị karịa ₦50,000',
+  'step.employment.corper.cap.body': 'Onyinye kacha nke gị agaghị akarị ₦50,000, oge nkwụghachi ga-agwụkwa tupu afọ ọrụ gị agwụ. Anyị na-egosi gị ugbu a ka ọ ghara ị juchi gị anya n\'ihu.',
   'step.employment.continue': 'Gaa n’ihu',
 
   'waitlist.title': 'Anyị erubeghị ebe ahụ',
@@ -944,6 +950,8 @@ const ha: Dict = {
   'step.employment.coming.soon.body': 'Ba mu tsara wannan rukunin ba tukuna — shiga jerin jira.',
   'step.employment.corper.months.label': 'Watannin da suka rage a hidima',
   'step.employment.corper.months.hint': 'Tsakanin 1 zuwa 11.',
+  'step.employment.corper.cap.headline': 'Rancen NYSC ba zai wuce ₦50,000 ba',
+  'step.employment.corper.cap.body': 'Mafi girman tayin ba zai wuce ₦50,000 ba, kuma lokacin biyan bashi dole ne ya ƙare kafin shekarar hidimarka ta ƙare. Muna sanar da kai yanzu don kada ka gigice a matakin tayi.',
   'step.employment.continue': 'Ci gaba',
 
   'waitlist.title': 'Ba mu iso can ba',

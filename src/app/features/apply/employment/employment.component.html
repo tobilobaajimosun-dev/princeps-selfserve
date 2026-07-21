@@ -37,6 +37,11 @@
   </ul>
 
   @if (showCorperMonths()) {
+    <aside class="nysc-notice" role="note">
+      <p class="nysc-notice-headline">{{ 'step.employment.corper.cap.headline' | t }}</p>
+      <p class="nysc-notice-body">{{ 'step.employment.corper.cap.body' | t }}</p>
+    </aside>
+
     <div class="field">
       <label class="label" for="months">{{ 'step.employment.corper.months.label' | t }}</label>
       <input

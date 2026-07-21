@@ -1,5 +1,26 @@
 .step { display: flex; flex-direction: column; gap: var(--space-8); }
 
+.nysc-notice {
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--orange-500, #f97316) 10%, transparent);
+  border-left: 3px solid var(--orange-500, #f97316);
+  border-radius: 6px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.nysc-notice-headline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.nysc-notice-body { margin: 0; font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+@media (max-width: 380px) {
+  .nysc-notice { padding: var(--space-3); }
+  .nysc-notice-headline { font-size: 13px; }
+  .nysc-notice-body { font-size: 12px; }
+}
+
 .head { display: flex; flex-direction: column; gap: var(--space-3); }
 
 .title {
