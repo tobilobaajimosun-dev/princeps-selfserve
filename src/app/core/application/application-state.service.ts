@@ -74,6 +74,14 @@ export interface NinDraft {
   verified: boolean;
 }
 
+export interface MandateDraft {
+  authorized: boolean;
+  channel: SalaryChannel;
+  monthlyAmount: number;
+  tenorMonths: number;
+  authorizedAt: string;
+}
+
 export type DocStatus = 'pending' | 'uploading' | 'uploaded' | 'failed';
 
 export interface DocDraft {
@@ -109,6 +117,7 @@ export interface ApplicationDraft {
   profile: ProfileDraft | null;
   bvn: BvnDraft | null;
   nin: NinDraft | null;
+  mandate: MandateDraft | null;
   docs: DocDraft[];
   submission: SubmissionDraft;
 }
@@ -124,6 +133,7 @@ const empty: ApplicationDraft = {
   profile: null,
   bvn: null,
   nin: null,
+  mandate: null,
   docs: [],
   submission: { status: 'idle' },
 };
@@ -142,6 +152,7 @@ export class ApplicationStateService {
   readonly profile = computed(() => this.state().profile);
   readonly bvn = computed(() => this.state().bvn);
   readonly nin = computed(() => this.state().nin);
+  readonly mandate = computed(() => this.state().mandate);
   readonly docs = computed(() => this.state().docs);
   readonly submission = computed(() => this.state().submission);
 
@@ -183,6 +194,10 @@ export class ApplicationStateService {
 
   setNin(nin: NinDraft): void {
     this.state.update((s) => ({ ...s, nin }));
+  }
+
+  setMandate(mandate: MandateDraft): void {
+    this.state.update((s) => ({ ...s, mandate }));
   }
 
   setDocs(docs: DocDraft[]): void {

@@ -57,6 +57,12 @@ const requiresNinGuard: CanMatchFn = () => {
   return state.nin()?.verified ? true : router.parseUrl('/apply/nin');
 };
 
+const requiresMandateGuard: CanMatchFn = () => {
+  const state = inject(ApplicationStateService);
+  const router = inject(Router);
+  return state.mandate()?.authorized ? true : router.parseUrl('/apply/mandate');
+};
+
 export const routes: Routes = [
   {
     path: '',
@@ -144,8 +150,14 @@ export const routes: Routes = [
           import('./features/apply/terms/terms.component').then((m) => m.TermsComponent),
       },
       {
-        path: 'documents',
+        path: 'mandate',
         canMatch: [requiresOfferGuard],
+        loadComponent: () =>
+          import('./features/apply/mandate/mandate.component').then((m) => m.MandateComponent),
+      },
+      {
+        path: 'documents',
+        canMatch: [requiresMandateGuard],
         loadComponent: () =>
           import('./features/apply/documents/documents.component').then(
             (m) => m.DocumentsComponent,
@@ -153,7 +165,7 @@ export const routes: Routes = [
       },
       {
         path: 'submit',
-        canMatch: [requiresOfferGuard],
+        canMatch: [requiresMandateGuard],
         loadComponent: () =>
           import('./features/apply/submit/submit.component').then((m) => m.SubmitComponent),
       },

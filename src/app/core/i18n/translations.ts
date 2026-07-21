@@ -191,6 +191,25 @@ const en: Dict = {
   'step.nin.error.service': 'NIMC service is unavailable. Try again in a few minutes.',
   'step.nin.support': 'Contact support',
 
+  'step.mandate.eyebrow': 'Repayment authorization',
+  'step.mandate.title': 'Authorize your repayment',
+  'step.mandate.subtitle':
+    'By authorizing, you allow Princeps to deduct your monthly repayment from your salary through {channel} until the loan is fully repaid.',
+  'step.mandate.channel.ippis': 'IPPIS',
+  'step.mandate.channel.remita': 'Remita',
+  'step.mandate.channel.dedukt': 'Dedukt',
+  'step.mandate.row.amount': 'Monthly deduction',
+  'step.mandate.row.frequency': 'How often',
+  'step.mandate.row.monthly': 'Every payday',
+  'step.mandate.row.tenor': 'For how long',
+  'step.mandate.row.months': '{n} months',
+  'step.mandate.row.channel': 'Deduction channel',
+  'step.mandate.finePrint':
+    'You can cancel this mandate once the loan is fully repaid. Cancelling before repayment ends will be treated as default under the loan terms.',
+  'step.mandate.agree':
+    'I authorize Princeps to deduct the amount above from my salary every month until the loan is repaid.',
+  'step.mandate.authorize': 'Authorize deduction',
+
   'step.docs.eyebrow': 'Almost done',
   'step.docs.title': 'Upload your documents',
   'step.docs.subtitle': 'Photos are fine. Just make sure everything is readable.',
@@ -419,6 +438,25 @@ const yo: Dict = {
   'step.nin.error.mismatch': 'Orúkọ lórí NIN yìí kò bá ohun tí o kọ mu. Kàn sí ìrànlọ́wọ́.',
   'step.nin.error.service': 'Ètò NIMC kò sí lárọ̀ọ́wọ́tó. Gbìyànjú lẹ́yìn ìṣẹ́jú díẹ̀.',
   'step.nin.support': 'Kàn sí ìrànlọ́wọ́',
+
+  'step.mandate.eyebrow': 'Ìgbàṣẹ ìsanwó',
+  'step.mandate.title': 'Fọwọ́ sí ìsanwó rẹ',
+  'step.mandate.subtitle':
+    'Nípa fífọwọ́ sí, o gba Princeps láàyè láti gba owó ìsanwó oṣooṣù rẹ láti orí owó oṣù rẹ nípasẹ̀ {channel} títí tí a fi san awin náà pátápátá.',
+  'step.mandate.channel.ippis': 'IPPIS',
+  'step.mandate.channel.remita': 'Remita',
+  'step.mandate.channel.dedukt': 'Dedukt',
+  'step.mandate.row.amount': 'Iye oṣooṣù',
+  'step.mandate.row.frequency': 'Iwọn ìgbà',
+  'step.mandate.row.monthly': 'Ojoojúmọ́ ọjọ́ owó',
+  'step.mandate.row.tenor': 'Fún ìgbà wo',
+  'step.mandate.row.months': 'Oṣù {n}',
+  'step.mandate.row.channel': 'Ọ̀nà ìgbà',
+  'step.mandate.finePrint':
+    'O lè fagilé àṣẹ yìí kí a bá san awin náà tán. Fifagilee kí a tó san án tán yóò jẹ́ àìsanwó lábẹ́ àdéhùn awin.',
+  'step.mandate.agree':
+    'Mo gba Princeps láàyè láti gba iye tí ó wà lókè láti orí owó oṣù mi lóṣooṣù títí a fi san awin náà.',
+  'step.mandate.authorize': 'Fọwọ́ sí ìgbà náà',
 
   'step.docs.eyebrow': 'Ó ti fẹ́rẹ̀ parí',
   'step.docs.title': 'Fi àwọn ìwé rẹ sí orí',
@@ -649,6 +687,25 @@ const ig: Dict = {
   'step.nin.error.service': 'Sistemu NIMC adịghị ugbu a. Gbalịa n’ime nkeji ole na ole.',
   'step.nin.support': 'Kpọtụrụ nkwado',
 
+  'step.mandate.eyebrow': 'Ikwenye ịkwụghachi',
+  'step.mandate.title': 'Nye ikike ịkwụghachi',
+  'step.mandate.subtitle':
+    'Site na ịnye ikike, ị na-ekwe ka Princeps wepụta ego ịkwụghachi kwa ọnwa site n’ụgwọ ọnwa gị site na {channel} ruo mgbe akwụghachiri mbinye ego niile.',
+  'step.mandate.channel.ippis': 'IPPIS',
+  'step.mandate.channel.remita': 'Remita',
+  'step.mandate.channel.dedukt': 'Dedukt',
+  'step.mandate.row.amount': 'Ego kwa ọnwa',
+  'step.mandate.row.frequency': 'Ugboro ole',
+  'step.mandate.row.monthly': 'Kwa ụbọchị ụgwọ',
+  'step.mandate.row.tenor': 'Ruo ogologo oge',
+  'step.mandate.row.months': 'Ọnwa {n}',
+  'step.mandate.row.channel': 'Ụzọ mbelata',
+  'step.mandate.finePrint':
+    'Ị nwere ike kagbuo ikike a mgbe akwụghachiri mbinye ego niile. Ịkagbu ya tupu akwụghachi ya ga-abụ ndakpọ n’okpuru nkwekọrịta mbinye ego.',
+  'step.mandate.agree':
+    'A na m enye Princeps ikike iwepụta ego dị n’elu site n’ụgwọ ọnwa m kwa ọnwa ruo mgbe akwụghachiri mbinye ego.',
+  'step.mandate.authorize': 'Nye ikike mbelata',
+
   'step.docs.eyebrow': 'Fọrọ nke nta',
   'step.docs.title': 'Bulite akwụkwọ gị',
   'step.docs.subtitle': 'Foto doro anya. Jide n’aka na ihe niile pụtara.',
@@ -877,6 +934,25 @@ const ha: Dict = {
   'step.nin.error.mismatch': 'Sunan da ke kan NIN bai dace ba. Tuntuɓi tallafi.',
   'step.nin.error.service': 'Tsarin NIMC ba ya aiki yanzu. Gwada cikin mintuna.',
   'step.nin.support': 'Tuntuɓi tallafi',
+
+  'step.mandate.eyebrow': 'Izinin biyan bashi',
+  'step.mandate.title': 'Ba da izinin biyan bashi',
+  'step.mandate.subtitle':
+    'Ta hanyar ba da izini, ka bar Princeps ta cire kuɗin biyan bashi na wata-wata daga albashinka ta hanyar {channel} har sai an biya bashi gaba ɗaya.',
+  'step.mandate.channel.ippis': 'IPPIS',
+  'step.mandate.channel.remita': 'Remita',
+  'step.mandate.channel.dedukt': 'Dedukt',
+  'step.mandate.row.amount': 'Kuɗin wata-wata',
+  'step.mandate.row.frequency': 'Sau nawa',
+  'step.mandate.row.monthly': 'Kowace ranar albashi',
+  'step.mandate.row.tenor': 'Har tsawon nawa',
+  'step.mandate.row.months': 'Watanni {n}',
+  'step.mandate.row.channel': 'Hanyar cirewa',
+  'step.mandate.finePrint':
+    'Kana iya soke wannan izini bayan an biya bashin gaba ɗaya. Soke shi kafin biyan zai zama kāsawa ƙarƙashin sharuɗɗan bashi.',
+  'step.mandate.agree':
+    'Na ba Princeps izini ta cire kuɗin da ke sama daga albashina kowane wata har sai an biya bashi.',
+  'step.mandate.authorize': 'Ba da izinin cirewa',
 
   'step.docs.eyebrow': 'Kusan ƙarshe',
   'step.docs.title': 'Loda takardunka',

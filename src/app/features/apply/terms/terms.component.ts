@@ -56,7 +56,7 @@ export class TermsComponent implements OnInit {
 
   take(): void {
     if (!this.agreed()) return;
-    void this.router.navigateByUrl('/apply/documents');
+    void this.router.navigateByUrl('/apply/mandate');
   }
 }
 
