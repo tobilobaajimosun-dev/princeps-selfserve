@@ -7,10 +7,23 @@ import { formatNaira } from '../../../core/money.util';
 
 interface ScheduleRow {
   month: number;
+  dueDate: Date;
   principal: number;
   interest: number;
   payment: number;
   balance: number;
+}
+
+const PAYDAY_DAY = 25;
+
+function firstPaydayAfter(from: Date): Date {
+  const y = from.getFullYear();
+  const m = from.getMonth();
+  const d = from.getDate();
+  // If disbursed on or before the 15th of the month, first repayment is this month's 25th.
+  // Otherwise, roll to next month's 25th so the borrower doesn't owe within 10 days.
+  const monthOffset = d <= 15 ? 0 : 1;
+  return new Date(y, m + monthOffset, PAYDAY_DAY);
 }
 
 @Component({
@@ -33,6 +46,14 @@ export class TermsComponent implements OnInit {
     if (!o) return [];
     return buildSchedule(o.amount, o.tenorMonths, o.ratePercent, o.interestModel);
   });
+
+  readonly firstDueDate = computed(() => this.schedule()[0]?.dueDate ?? null);
+  readonly lastDueDate = computed(() => this.schedule().at(-1)?.dueDate ?? null);
+
+  formatDueDate(d: Date | null): string {
+    if (!d) return '';
+    return d.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
 
   readonly totalRepayable = computed(() =>
     this.schedule().reduce((acc, r) => acc + r.payment, 0),
@@ -68,6 +89,9 @@ function buildSchedule(
 ): ScheduleRow[] {
   const r = ratePercent / 100;
   const rows: ScheduleRow[] = [];
+  const firstDue = firstPaydayAfter(new Date());
+  const dueFor = (m: number) =>
+    new Date(firstDue.getFullYear(), firstDue.getMonth() + (m - 1), PAYDAY_DAY);
   if (model === 'Reducing Balance') {
     const pmt = r === 0 ? principal / n : (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
     let balance = principal;
@@ -77,6 +101,7 @@ function buildSchedule(
       balance -= principalPaid;
       rows.push({
         month: m,
+        dueDate: dueFor(m),
         principal: Math.round(principalPaid),
         interest: Math.round(interest),
         payment: Math.round(pmt),
@@ -91,6 +116,7 @@ function buildSchedule(
       balance -= principalPerMonth;
       rows.push({
         month: m,
+        dueDate: dueFor(m),
         principal: Math.round(principalPerMonth),
         interest: Math.round(interest),
         payment: Math.round(principalPerMonth + interest),
@@ -108,6 +134,7 @@ function buildSchedule(
       balance -= principalPerMonth;
       rows.push({
         month: m,
+        dueDate: dueFor(m),
         principal: Math.round(principalPerMonth),
         interest: Math.round(interestPerMonth),
         payment: Math.round(pmt),

@@ -43,6 +43,19 @@
 .fees li strong { font-family: var(--font-display); font-weight: 500; }
 .fees-total { color: var(--ink); border-top: 1px solid var(--hairline); padding-top: 12px !important; }
 
+.payday-callout {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in srgb, var(--action-primary) 8%, transparent);
+  border-left: 3px solid var(--action-primary);
+  border-radius: 6px;
+  font-size: 13px; line-height: 1.5;
+  color: var(--ink);
+}
+.payday-callout strong { font-family: var(--font-display); font-weight: 500; }
+.payday-callout span { color: var(--ink-soft); font-size: 12px; }
+@media (max-width: 380px) { .payday-callout { padding: var(--space-2) var(--space-3); font-size: 12px; } }
+
 /* Data table per CLAUDE.md: edge-to-edge, no card, hairlines only */
 .table-scroll { overflow-x: auto; margin: 0 calc(var(--space-6) * -1); padding: 0 var(--space-6); }
 .schedule { width: 100%; border-collapse: collapse; font-size: 13px; }

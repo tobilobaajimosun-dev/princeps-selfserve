@@ -42,11 +42,16 @@
 
   <section class="block">
     <h2 class="block-title">{{ 'step.terms.schedule' | t }}</h2>
+    <div class="payday-callout" role="note">
+      <strong>{{ 'step.terms.payday.first' | t }}: {{ formatDueDate(firstDueDate()) }}</strong>
+      <span>{{ 'step.terms.payday.note' | t }}</span>
+    </div>
     <div class="table-scroll">
       <table class="schedule">
         <thead>
           <tr>
             <th>{{ 'step.terms.month' | t }}</th>
+            <th>{{ 'step.terms.dueCol' | t }}</th>
             <th>{{ 'step.terms.principalCol' | t }}</th>
             <th>{{ 'step.terms.interestCol' | t }}</th>
             <th>{{ 'step.terms.paymentCol' | t }}</th>
@@ -57,6 +62,7 @@
           @for (r of schedule(); track r.month) {
             <tr>
               <td>{{ r.month }}</td>
+              <td>{{ formatDueDate(r.dueDate) }}</td>
               <td>{{ formatNaira(r.principal) }}</td>
               <td>{{ formatNaira(r.interest) }}</td>
               <td>{{ formatNaira(r.payment) }}</td>
