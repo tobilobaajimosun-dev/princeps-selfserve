@@ -30,6 +30,30 @@
     <p class="ref">{{ 'status.reference' | t }} · <span>{{ s.referenceId }}</span></p>
   }
 
+  @if (showWhatsapp()) {
+    <a
+      class="wa"
+      [attr.href]="whatsappHref()"
+      target="_blank"
+      rel="noopener"
+      [attr.aria-label]="'status.whatsapp.aria' | t"
+    >
+      <span class="wa-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M20.5 12A8.5 8.5 0 1 1 6.9 19.1L3.5 20.5l1.4-3.4A8.5 8.5 0 1 1 20.5 12z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M9 9.5c0 3 2.5 5.5 5.5 5.5.5 0 1-.5 1-1v-1l-2-.5-.8.8c-1-.5-1.7-1.2-2.2-2.2l.8-.8-.5-2h-1c-.5 0-1 .5-1 1z" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="wa-body">
+        <span class="wa-title">{{ 'status.whatsapp.title' | t }}</span>
+        <span class="wa-hint">{{ 'status.whatsapp.hint' | t }}</span>
+      </span>
+      <svg class="wa-arrow" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  }
+
   <button type="button" class="cta" (click)="done()">
     <span>{{ 'status.done' | t }}</span>
   </button>

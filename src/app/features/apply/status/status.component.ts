@@ -4,6 +4,8 @@ import { TPipe } from '../../../core/i18n/t.pipe';
 import { ApplicationStateService } from '../../../core/application/application-state.service';
 import { AGENTS, OFFICES } from '../../../core/directory/contacts';
 
+const PRINCEPS_WHATSAPP = '2348030000000';
+
 @Component({
   selector: 'app-status',
   imports: [TPipe],
@@ -19,6 +21,20 @@ export class StatusComponent {
   readonly agents = AGENTS;
   readonly offices = OFFICES;
   readonly telHref = (phone: string): string => `tel:${phone.replace(/\s+/g, '')}`;
+
+  readonly whatsappHref = computed(() => {
+    const s = this.submission();
+    const ref = s.referenceId ?? '';
+    const message = ref
+      ? `Hi Princeps, please send WhatsApp updates for my application ${ref}.`
+      : `Hi Princeps, please send WhatsApp updates for my application.`;
+    return `https://wa.me/${PRINCEPS_WHATSAPP}?text=${encodeURIComponent(message)}`;
+  });
+
+  readonly showWhatsapp = computed(() => {
+    const s = this.submission().status;
+    return s === 'approved' || s === 'review' || s === 'disbursement-pending';
+  });
 
   readonly titleKey = computed(() => `status.${this.baseKey()}.title`);
   readonly bodyKey = computed(() => `status.${this.baseKey()}.body`);
