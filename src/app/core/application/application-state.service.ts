@@ -69,6 +69,11 @@ export interface BvnDraft {
   matchedName?: string;
 }
 
+export interface NinDraft {
+  value: string;
+  verified: boolean;
+}
+
 export type DocStatus = 'pending' | 'uploading' | 'uploaded' | 'failed';
 
 export interface DocDraft {
@@ -103,6 +108,7 @@ export interface ApplicationDraft {
   offer: OfferDraft | null;
   profile: ProfileDraft | null;
   bvn: BvnDraft | null;
+  nin: NinDraft | null;
   docs: DocDraft[];
   submission: SubmissionDraft;
 }
@@ -117,6 +123,7 @@ const empty: ApplicationDraft = {
   offer: null,
   profile: null,
   bvn: null,
+  nin: null,
   docs: [],
   submission: { status: 'idle' },
 };
@@ -134,6 +141,7 @@ export class ApplicationStateService {
   readonly offer = computed(() => this.state().offer);
   readonly profile = computed(() => this.state().profile);
   readonly bvn = computed(() => this.state().bvn);
+  readonly nin = computed(() => this.state().nin);
   readonly docs = computed(() => this.state().docs);
   readonly submission = computed(() => this.state().submission);
 
@@ -171,6 +179,10 @@ export class ApplicationStateService {
 
   setBvn(bvn: BvnDraft): void {
     this.state.update((s) => ({ ...s, bvn }));
+  }
+
+  setNin(nin: NinDraft): void {
+    this.state.update((s) => ({ ...s, nin }));
   }
 
   setDocs(docs: DocDraft[]): void {

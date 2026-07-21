@@ -8,18 +8,18 @@ import { API_CLIENT } from '../../../core/api/api-client';
 import { ApplicationStateService } from '../../../core/application/application-state.service';
 
 @Component({
-  selector: 'app-bvn',
+  selector: 'app-nin',
   imports: [TPipe, WizardProgressComponent, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './bvn.component.html',
-  styleUrl: './bvn.component.css',
+  templateUrl: './nin.component.html',
+  styleUrl: './nin.component.css',
 })
-export class BvnComponent {
+export class NinComponent {
   private readonly api = inject(API_CLIENT);
   private readonly state = inject(ApplicationStateService);
   private readonly router = inject(Router);
 
-  readonly bvn = new FormControl('', {
+  readonly nin = new FormControl('', {
     nonNullable: true,
     validators: [Validators.required, Validators.pattern(/^\d{11}$/)],
   });
@@ -27,16 +27,16 @@ export class BvnComponent {
   readonly submitting = signal(false);
   readonly serverError = signal<'not-found' | 'name-mismatch' | 'service-down' | null>(null);
 
-  readonly status = toSignal(this.bvn.statusChanges, { initialValue: this.bvn.status });
+  readonly status = toSignal(this.nin.statusChanges, { initialValue: this.nin.status });
   readonly canSubmit = computed(() => this.status() === 'VALID' && !this.submitting());
 
   constructor() {
-    if (!this.state.profile()) {
-      void this.router.navigateByUrl('/apply/profile');
+    if (!this.state.bvn()?.verified) {
+      void this.router.navigateByUrl('/apply/bvn');
       return;
     }
-    const saved = this.state.bvn();
-    if (saved) this.bvn.setValue(saved.value);
+    const saved = this.state.nin();
+    if (saved) this.nin.setValue(saved.value);
   }
 
   onInput(event: Event): void {
@@ -44,16 +44,16 @@ export class BvnComponent {
     const digitsOnly = el.value.replace(/\D/g, '').slice(0, 11);
     if (digitsOnly !== el.value) {
       el.value = digitsOnly;
-      this.bvn.setValue(digitsOnly);
+      this.nin.setValue(digitsOnly);
     }
   }
 
   errorKey(): string | null {
     const e = this.serverError();
     if (!e) return null;
-    if (e === 'not-found') return 'step.bvn.error.not.found';
-    if (e === 'name-mismatch') return 'step.bvn.error.mismatch';
-    return 'step.bvn.error.service';
+    if (e === 'not-found') return 'step.nin.error.not.found';
+    if (e === 'name-mismatch') return 'step.nin.error.mismatch';
+    return 'step.nin.error.service';
   }
 
   async submit(): Promise<void> {
@@ -62,17 +62,13 @@ export class BvnComponent {
     this.serverError.set(null);
     try {
       const profile = this.state.profile();
-      const res = await this.api.verifyBvn(this.bvn.value, profile?.fullName ?? '');
+      const res = await this.api.verifyNin(this.nin.value, profile?.fullName ?? '');
       if (res.status !== 'ok') {
         this.serverError.set(res.status);
         return;
       }
-      this.state.setBvn({
-        value: this.bvn.value,
-        verified: true,
-        matchedName: res.matchedName,
-      });
-      await this.router.navigateByUrl('/apply/nin');
+      this.state.setNin({ value: this.nin.value, verified: true });
+      await this.router.navigateByUrl('/apply/eligibility');
     } finally {
       this.submitting.set(false);
     }

@@ -69,6 +69,7 @@ export interface ApiClient {
   listBanks(): Promise<Bank[]>;
   verifySalary(input: SalaryVerifyInput): Promise<SalaryVerifyResult>;
   verifyBvn(bvn: string, fullName: string): Promise<BvnVerifyResult>;
+  verifyNin(nin: string, fullName: string): Promise<BvnVerifyResult>;
   uploadDocument(input: DocUploadInput): Promise<DocUploadResult>;
   submitApplication(payload: SubmitPayload): Promise<SubmitResult>;
   joinWaitlist(input: { phone: string; email: string; type: string }): Promise<{ status: 'ok' }>;
@@ -167,6 +168,14 @@ export class MockApiClient implements ApiClient {
     if (bvn === '99999999999') return { status: 'service-down' };
     if (bvn === '00000000000') return { status: 'not-found' };
     if (bvn === '11111111111') return { status: 'name-mismatch', matchedName: 'A. Different' };
+    return { status: 'ok', matchedName: 'A. Adeyemi' };
+  }
+
+  async verifyNin(nin: string, _fullName: string): Promise<BvnVerifyResult> {
+    await delay(900);
+    if (nin === '99999999999') return { status: 'service-down' };
+    if (nin === '00000000000') return { status: 'not-found' };
+    if (nin === '11111111111') return { status: 'name-mismatch', matchedName: 'A. Different' };
     return { status: 'ok', matchedName: 'A. Adeyemi' };
   }
 

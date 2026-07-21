@@ -51,6 +51,12 @@ const requiresBvnGuard: CanMatchFn = () => {
   return state.bvn()?.verified ? true : router.parseUrl('/apply/bvn');
 };
 
+const requiresNinGuard: CanMatchFn = () => {
+  const state = inject(ApplicationStateService);
+  const router = inject(Router);
+  return state.nin()?.verified ? true : router.parseUrl('/apply/nin');
+};
+
 export const routes: Routes = [
   {
     path: '',
@@ -112,8 +118,14 @@ export const routes: Routes = [
           import('./features/apply/bvn/bvn.component').then((m) => m.BvnComponent),
       },
       {
-        path: 'eligibility',
+        path: 'nin',
         canMatch: [requiresBvnGuard],
+        loadComponent: () =>
+          import('./features/apply/nin/nin.component').then((m) => m.NinComponent),
+      },
+      {
+        path: 'eligibility',
+        canMatch: [requiresNinGuard],
         loadComponent: () =>
           import('./features/apply/eligibility/eligibility.component').then(
             (m) => m.EligibilityComponent,
@@ -121,7 +133,7 @@ export const routes: Routes = [
       },
       {
         path: 'offers',
-        canMatch: [requiresBvnGuard],
+        canMatch: [requiresNinGuard],
         loadComponent: () =>
           import('./features/apply/offers/offers.component').then((m) => m.OffersComponent),
       },
