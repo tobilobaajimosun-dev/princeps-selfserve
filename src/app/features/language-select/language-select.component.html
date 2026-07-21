@@ -50,5 +50,27 @@
     <a class="signin" href="https://caltos-rho.vercel.app/portal/repayments" rel="noopener">
       {{ 'lang.select.signin' | t }}
     </a>
+
+    <ul class="trust" aria-label="Regulatory disclosures">
+      <li class="trust-item">
+        <svg class="trust-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M10 2L3 5v5c0 4.5 3 7.5 7 8 4-.5 7-3.5 7-8V5l-7-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+          <path d="M7 10l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>{{ 'trust.cbn' | t }}</span>
+      </li>
+      <li class="trust-item">
+        <svg class="trust-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <rect x="3" y="7" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5" />
+          <path d="M7 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+        <span>{{ 'trust.ndpr' | t }}</span>
+      </li>
+      <li class="trust-item">
+        <a class="trust-link" href="mailto:complaints@princeps.ng?subject=Complaint" rel="noopener">{{ 'trust.complaints' | t }}</a>
+        <span class="trust-sep" aria-hidden="true">·</span>
+        <a class="trust-link" href="https://www.cbn.gov.ng/Supervision/consumerprotection.asp" target="_blank" rel="noopener">{{ 'trust.cbn.escalate' | t }}</a>
+      </li>
+    </ul>
   </footer>
 </main>
