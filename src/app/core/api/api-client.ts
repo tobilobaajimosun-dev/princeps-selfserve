@@ -56,9 +56,9 @@ export interface Bank {
 
 export interface ApiClient {
   lookupContact(input: { phone: string; email: string }): Promise<LookupResult>;
-  sendEmailOtp(email: string): Promise<{ target: string; expiresInSeconds: number }>;
-  verifyEmailOtp(
-    email: string,
+  sendPhoneOtp(phone: string): Promise<{ target: string; expiresInSeconds: number }>;
+  verifyPhoneOtp(
+    phone: string,
     code: string,
   ): Promise<
     | { status: 'ok' }
@@ -80,11 +80,14 @@ function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function maskEmail(email: string): string {
-  const [local, domain] = email.split('@');
-  if (!domain) return email;
-  const head = local.slice(0, 2);
-  return `${head}${'•'.repeat(Math.max(local.length - 2, 1))}@${domain}`;
+function maskPhone(phone: string): string {
+  // Preserve the leading country/prefix and last 2 digits, mask the middle.
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length < 6) return phone;
+  const head = digits.slice(0, 4);
+  const tail = digits.slice(-2);
+  const middle = '•'.repeat(digits.length - head.length - tail.length);
+  return `${head} ${middle} ${tail}`;
 }
 
 const NG_BANKS: Bank[] = [
@@ -134,12 +137,12 @@ export class MockApiClient implements ApiClient {
     return { kind: 'new' };
   }
 
-  async sendEmailOtp(email: string) {
+  async sendPhoneOtp(phone: string) {
     await delay(500);
-    return { target: maskEmail(email), expiresInSeconds: 300 };
+    return { target: maskPhone(phone), expiresInSeconds: 300 };
   }
 
-  async verifyEmailOtp(_email: string, code: string) {
+  async verifyPhoneOtp(_phone: string, code: string) {
     await delay(500);
     if (code === '123456') return { status: 'ok' } as const;
     if (code === '000000') return { status: 'expired' } as const;

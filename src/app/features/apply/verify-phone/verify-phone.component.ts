@@ -27,13 +27,13 @@ type OtpError =
   | { kind: 'locked'; retryAfterSeconds: number };
 
 @Component({
-  selector: 'app-verify-email',
+  selector: 'app-verify-phone',
   imports: [TPipe, WizardProgressComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './verify-email.component.html',
-  styleUrl: './verify-email.component.css',
+  templateUrl: './verify-phone.component.html',
+  styleUrl: './verify-phone.component.css',
 })
-export class VerifyEmailComponent implements OnInit, AfterViewInit, OnDestroy {
+export class VerifyPhoneComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly api = inject(API_CLIENT);
   private readonly state = inject(ApplicationStateService);
   private readonly router = inject(Router);
@@ -63,7 +63,7 @@ export class VerifyEmailComponent implements OnInit, AfterViewInit, OnDestroy {
       await this.router.navigateByUrl('/apply/contact');
       return;
     }
-    const res = await this.api.sendEmailOtp(contact.email);
+    const res = await this.api.sendPhoneOtp(contact.phone);
     this.maskedTarget.set(res.target);
     this.startCooldown();
   }
@@ -132,10 +132,9 @@ export class VerifyEmailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.submitting.set(true);
     this.error.set(null);
     try {
-      const res = await this.api.verifyEmailOtp(contact.email, this.code());
+      const res = await this.api.verifyPhoneOtp(contact.phone, this.code());
       if (res.status === 'ok') {
-        this.state.markEmailVerified();
-        // Placeholder: next step is employment type — route lands there when built.
+        this.state.markPhoneVerified();
         await this.router.navigateByUrl('/apply/employment');
         return;
       }
@@ -157,7 +156,7 @@ export class VerifyEmailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resending.set(true);
     this.justResent.set(false);
     try {
-      const res = await this.api.sendEmailOtp(contact.email);
+      const res = await this.api.sendPhoneOtp(contact.phone);
       this.maskedTarget.set(res.target);
       this.justResent.set(true);
       this.error.set(null);

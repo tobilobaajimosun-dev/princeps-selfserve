@@ -95,7 +95,7 @@ export interface SubmissionDraft {
 
 export interface ApplicationDraft {
   contact: ContactDraft | null;
-  emailVerified: boolean;
+  phoneVerified: boolean;
   isReturningCustomer: boolean;
   employment: EmploymentDraft | null;
   salary: SalaryDraft | null;
@@ -109,7 +109,7 @@ export interface ApplicationDraft {
 
 const empty: ApplicationDraft = {
   contact: null,
-  emailVerified: false,
+  phoneVerified: false,
   isReturningCustomer: false,
   employment: null,
   salary: null,
@@ -126,7 +126,7 @@ export class ApplicationStateService {
   private readonly state = signal<ApplicationDraft>(empty);
   readonly draft = this.state.asReadonly();
   readonly contact = computed(() => this.state().contact);
-  readonly emailVerified = computed(() => this.state().emailVerified);
+  readonly phoneVerified = computed(() => this.state().phoneVerified);
   readonly isReturningCustomer = computed(() => this.state().isReturningCustomer);
   readonly employment = computed(() => this.state().employment);
   readonly salary = computed(() => this.state().salary);
@@ -138,11 +138,11 @@ export class ApplicationStateService {
   readonly submission = computed(() => this.state().submission);
 
   setContact(contact: ContactDraft): void {
-    this.state.update((s) => ({ ...s, contact, emailVerified: false }));
+    this.state.update((s) => ({ ...s, contact, phoneVerified: false }));
   }
 
-  markEmailVerified(): void {
-    this.state.update((s) => ({ ...s, emailVerified: true }));
+  markPhoneVerified(): void {
+    this.state.update((s) => ({ ...s, phoneVerified: true }));
   }
 
   setReturningCustomer(isReturning: boolean): void {

@@ -15,10 +15,10 @@ const requiresContactGuard: CanMatchFn = () => {
   return state.contact() ? true : router.parseUrl('/apply/contact');
 };
 
-const requiresEmailVerifiedGuard: CanMatchFn = () => {
+const requiresPhoneVerifiedGuard: CanMatchFn = () => {
   const state = inject(ApplicationStateService);
   const router = inject(Router);
-  return state.emailVerified() ? true : router.parseUrl('/apply/verify');
+  return state.phoneVerified() ? true : router.parseUrl('/apply/verify');
 };
 
 const requiresEmploymentGuard: CanMatchFn = () => {
@@ -75,13 +75,13 @@ export const routes: Routes = [
         path: 'verify',
         canMatch: [requiresContactGuard],
         loadComponent: () =>
-          import('./features/apply/verify-email/verify-email.component').then(
-            (m) => m.VerifyEmailComponent,
+          import('./features/apply/verify-phone/verify-phone.component').then(
+            (m) => m.VerifyPhoneComponent,
           ),
       },
       {
         path: 'employment',
-        canMatch: [requiresContactGuard, requiresEmailVerifiedGuard],
+        canMatch: [requiresContactGuard, requiresPhoneVerifiedGuard],
         loadComponent: () =>
           import('./features/apply/employment/employment.component').then(
             (m) => m.EmploymentComponent,
