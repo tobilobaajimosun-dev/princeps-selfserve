@@ -29,6 +29,17 @@
 }
 .input:focus { outline: none; border-color: var(--input-border-focus); box-shadow: var(--input-shadow-focus); }
 
+select.input {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: calc(var(--space-4) + 20px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%23111' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  background-size: 12px 8px;
+}
+select.input::-ms-expand { display: none; }
+
 .channel-field { display: flex; flex-direction: column; gap: var(--space-2); }
 .channel-choices { display: flex; gap: var(--space-2); flex-wrap: wrap; }
 .chip {

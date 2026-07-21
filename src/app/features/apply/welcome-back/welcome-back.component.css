@@ -62,7 +62,7 @@
 
 .secondary {
   align-self: stretch;
-  min-height: 48px;
+  min-height: 56px;
   padding: 0 var(--space-5);
   display: inline-flex; align-items: center; justify-content: center;
   background: transparent;
