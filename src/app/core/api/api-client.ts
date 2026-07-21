@@ -79,7 +79,26 @@ export interface ApiClient {
   verifyNin(nin: string, fullName: string): Promise<BvnVerifyResult>;
   uploadDocument(input: DocUploadInput): Promise<DocUploadResult>;
   submitApplication(payload: SubmitPayload): Promise<SubmitResult>;
-  joinWaitlist(input: { phone: string; email: string; type: string }): Promise<{ status: 'ok' }>;
+  joinWaitlist(input: WaitlistInput): Promise<WaitlistResult>;
+}
+
+export type IncomeBand = 'under-100k' | '100-250k' | '250-500k' | '500-1m' | 'over-1m';
+export type WaitlistChannel = 'whatsapp' | 'sms' | 'email';
+
+export interface WaitlistInput {
+  phone: string;
+  email: string;
+  type: string;
+  employer?: string;
+  incomeBand?: IncomeBand;
+  channel: WaitlistChannel;
+}
+
+export interface WaitlistResult {
+  status: 'ok';
+  referenceId: string;
+  positionInQueue: number;
+  estimatedWindow: string;
 }
 
 export const API_CLIENT = new InjectionToken<ApiClient>('ApiClient');
@@ -209,8 +228,16 @@ export class MockApiClient implements ApiClient {
     return { status: 'declined', referenceId: ref, reason: 'Insufficient repayment capacity.' };
   }
 
-  async joinWaitlist(_input: { phone: string; email: string; type: string }) {
-    await delay(500);
-    return { status: 'ok' as const };
+  async joinWaitlist(input: WaitlistInput): Promise<WaitlistResult> {
+    await delay(600);
+    const ref = 'WL-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+    const seed = (input.phone + input.email).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+    const positionInQueue = 800 + (seed % 1600);
+    return {
+      status: 'ok',
+      referenceId: ref,
+      positionInQueue,
+      estimatedWindow: 'Q4 2026',
+    };
   }
 }

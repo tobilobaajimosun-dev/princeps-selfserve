@@ -4,15 +4,61 @@
     <p class="subtitle">{{ 'waitlist.body' | t }}</p>
   </header>
 
-  @if (!joined()) {
-    <button type="button" class="cta" [disabled]="submitting()" (click)="join()">
-      <span>{{ 'waitlist.join' | t }}</span>
-      <svg class="cta-arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-    </button>
-  } @else {
-    <p class="ok">{{ 'waitlist.joined' | t }}</p>
+  @if (!result(); as _) {
+    <form class="form" [formGroup]="form" (ngSubmit)="join()" novalidate>
+      <div class="field">
+        <label class="label" for="employer">{{ 'waitlist.employer.label' | t }}</label>
+        <input id="employer" class="input" type="text" formControlName="employer" autocomplete="organization" />
+        <p class="msg">{{ 'waitlist.employer.hint' | t }}</p>
+      </div>
+
+      <div class="field">
+        <label class="label" for="income">{{ 'waitlist.income.label' | t }}</label>
+        <select id="income" class="input" formControlName="incomeBand">
+          <option value="" disabled>—</option>
+          @for (b of incomeBands; track b.value) {
+            <option [value]="b.value">{{ b.key | t }}</option>
+          }
+        </select>
+      </div>
+
+      <fieldset class="field channel-field">
+        <legend class="label">{{ 'waitlist.channel.label' | t }}</legend>
+        <div class="channel-choices">
+          <button type="button" class="chip" [class.chip--active]="form.controls.channel.value === 'whatsapp'" (click)="setChannel('whatsapp')">{{ 'waitlist.channel.whatsapp' | t }}</button>
+          <button type="button" class="chip" [class.chip--active]="form.controls.channel.value === 'sms'" (click)="setChannel('sms')">{{ 'waitlist.channel.sms' | t }}</button>
+          <button type="button" class="chip" [class.chip--active]="form.controls.channel.value === 'email'" (click)="setChannel('email')">{{ 'waitlist.channel.email' | t }}</button>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="cta" [disabled]="!canSubmit()">
+        <span>{{ submitting() ? ('waitlist.joining' | t) : ('waitlist.join' | t) }}</span>
+        @if (!submitting()) {
+          <svg class="cta-arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        }
+      </button>
+    </form>
+  } @else if (result(); as r) {
+    <div class="ok" role="status">
+      <p class="ok-headline">{{ 'waitlist.joined' | t }}</p>
+      <dl class="ok-facts">
+        <div>
+          <dt>{{ 'waitlist.result.reference' | t }}</dt>
+          <dd>{{ r.referenceId }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'waitlist.result.position' | t }}</dt>
+          <dd>#{{ r.positionInQueue }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'waitlist.result.window' | t }}</dt>
+          <dd>{{ r.estimatedWindow }}</dd>
+        </div>
+      </dl>
+      <p class="ok-note">{{ 'waitlist.result.note' | t }}</p>
+    </div>
     <button type="button" class="link-btn" (click)="home()">{{ 'waitlist.back' | t }}</button>
   }
 </section>
