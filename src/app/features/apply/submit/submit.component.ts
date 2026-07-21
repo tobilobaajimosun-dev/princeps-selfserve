@@ -45,12 +45,33 @@ export class SubmitComponent {
       const contact = this.state.contact()!;
       const employment = this.state.employment()!;
       const offer = this.state.offer()!;
-      const bvn = this.state.bvn()!.value;
+      const bvnDraft = this.state.bvn()!;
+      const bvn = bvnDraft.value;
+      const salary = this.state.salary();
+      const profile = this.state.profile();
+
+      const channel = (salary?.channel ?? 'remita') as 'ippis' | 'remita' | 'dedukt' | 'mono';
       const res = await this.api.submitApplication({
         contact: { phone: contact.phone, email: contact.email },
         employment: { type: employment.type },
         offer: { productId: offer.productId, amount: offer.amount, tenorMonths: offer.tenorMonths },
         bvn,
+        loan: {
+          borrowerBvn: bvn,
+          borrowerName: profile?.fullName ?? bvnDraft.matchedName ?? 'Unknown',
+          borrowerPhone: contact.phone,
+          amountKobo: Math.round(offer.amount * 100),
+          tenorMonths: offer.tenorMonths,
+          monthlyRepaymentKobo: Math.round(offer.monthlyRepayment * 100),
+          interestModel: offer.interestModel,
+          ratePercent: offer.ratePercent,
+          channel,
+          bankCode: salary?.bankCode ?? null,
+          accountNumber: salary?.accountNumber ?? null,
+          ippisNumber: salary?.ippisNumber ?? null,
+          employmentType: employment.type,
+          employer: salary?.paramilitaryEmployer ?? null,
+        },
       });
       const submittedAt = new Date().toISOString();
       if (res.status === 'approved') {
