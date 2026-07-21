@@ -86,6 +86,6 @@ export class DocumentsComponent implements OnInit {
 
   continue(): void {
     if (!this.allUploaded()) return;
-    void this.router.navigateByUrl('/apply/submit');
+    void this.router.navigateByUrl('/apply/verify-identity');
   }
 }

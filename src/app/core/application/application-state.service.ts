@@ -109,6 +109,12 @@ export interface SubmissionDraft {
   referenceId?: string;
 }
 
+export interface IdentityVerificationDraft {
+  facePhotoDataUrl: string;
+  videoDataUrl: string;
+  capturedAt: string;
+}
+
 export interface ReturningSnapshotDraft {
   fullName: string;
   lastLoanAt: string;
@@ -133,6 +139,7 @@ export interface ApplicationDraft {
   nin: NinDraft | null;
   mandate: MandateDraft | null;
   docs: DocDraft[];
+  identityVerification: IdentityVerificationDraft | null;
   submission: SubmissionDraft;
 }
 
@@ -150,6 +157,7 @@ const empty: ApplicationDraft = {
   nin: null,
   mandate: null,
   docs: [],
+  identityVerification: null,
   submission: { status: 'idle' },
 };
 
@@ -170,6 +178,7 @@ export class ApplicationStateService {
   readonly nin = computed(() => this.state().nin);
   readonly mandate = computed(() => this.state().mandate);
   readonly docs = computed(() => this.state().docs);
+  readonly identityVerification = computed(() => this.state().identityVerification);
   readonly submission = computed(() => this.state().submission);
 
   setContact(contact: ContactDraft): void {
@@ -229,6 +238,10 @@ export class ApplicationStateService {
       ...s,
       docs: s.docs.map((d) => (d.id === id ? { ...d, ...patch } : d)),
     }));
+  }
+
+  setIdentityVerification(v: IdentityVerificationDraft | null): void {
+    this.state.update((s) => ({ ...s, identityVerification: v }));
   }
 
   setSubmission(submission: SubmissionDraft): void {

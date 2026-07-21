@@ -63,6 +63,12 @@ const requiresMandateGuard: CanMatchFn = () => {
   return state.mandate()?.authorized ? true : router.parseUrl('/apply/mandate');
 };
 
+const requiresIdentityVerificationGuard: CanMatchFn = () => {
+  const state = inject(ApplicationStateService);
+  const router = inject(Router);
+  return state.identityVerification() ? true : router.parseUrl('/apply/verify-identity');
+};
+
 export const routes: Routes = [
   {
     path: '',
@@ -172,8 +178,16 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'submit',
+        path: 'verify-identity',
         canMatch: [requiresMandateGuard],
+        loadComponent: () =>
+          import('./features/apply/verify-identity/verify-identity.component').then(
+            (m) => m.VerifyIdentityComponent,
+          ),
+      },
+      {
+        path: 'submit',
+        canMatch: [requiresMandateGuard, requiresIdentityVerificationGuard],
         loadComponent: () =>
           import('./features/apply/submit/submit.component').then((m) => m.SubmitComponent),
       },

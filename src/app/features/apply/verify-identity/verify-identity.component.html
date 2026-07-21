@@ -1,0 +1,148 @@
+<section class="step">
+  <app-wizard-progress [current]="12" [total]="14" [label]="'step.verify.eyebrow' | t" />
+
+  <header class="head">
+    <h1 class="title">{{ 'step.verify.title' | t }}</h1>
+    <p class="subtitle">{{ 'step.verify.subtitle' | t }}</p>
+  </header>
+
+  @if (cameraError()) {
+    <p class="error" role="alert">{{ cameraError() }}</p>
+  }
+
+  @switch (stage()) {
+
+    @case ('intro') {
+      <ol class="checklist">
+        <li>
+          <span class="num">1</span>
+          <div>
+            <p class="check-title">{{ 'step.verify.check.face.title' | t }}</p>
+            <p class="check-hint">{{ 'step.verify.check.face.hint' | t }}</p>
+          </div>
+        </li>
+        <li>
+          <span class="num">2</span>
+          <div>
+            <p class="check-title">{{ 'step.verify.check.video.title' | t }}</p>
+            <p class="check-hint">
+              {{ 'step.verify.check.video.hint' | t: {
+                amount: formatNaira(loanAmount()),
+                monthly: formatNaira(monthlyRepayment())
+              } }}
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <p class="privacy">{{ 'step.verify.privacy' | t }}</p>
+
+      <button type="button" class="cta" (click)="begin()">
+        <span>{{ 'step.verify.begin' | t }}</span>
+        <svg class="cta-arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    }
+
+    @case ('face') {
+      <p class="stage-label">{{ 'step.verify.stage.face' | t }}</p>
+
+      <div class="frame frame--face">
+        @if (facePhoto(); as p) {
+          <img [attr.src]="p" alt="" class="captured" />
+        } @else {
+          <video #preview autoplay muted playsinline class="media"></video>
+          <div class="oval-guide" aria-hidden="true"></div>
+        }
+      </div>
+
+      @if (!facePhoto()) {
+        <button type="button" class="cta" (click)="capturePhoto()">
+          <span>{{ 'step.verify.capture' | t }}</span>
+        </button>
+      } @else {
+        <div class="row-actions">
+          <button type="button" class="ghost" (click)="retakePhoto()">{{ 'step.verify.retake' | t }}</button>
+          <button type="button" class="cta" (click)="proceedToVideo()">
+            <span>{{ 'step.verify.next' | t }}</span>
+            <svg class="cta-arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      }
+    }
+
+    @case ('video') {
+      <p class="stage-label">{{ 'step.verify.stage.video' | t }}</p>
+
+      <div class="script">
+        <p class="script-label">{{ 'step.verify.script.label' | t }}</p>
+        <p class="script-body">
+          {{ 'step.verify.script.body' | t: {
+            amount: formatNaira(loanAmount()),
+            monthly: formatNaira(monthlyRepayment())
+          } }}
+        </p>
+      </div>
+
+      <div class="frame frame--video">
+        @if (videoPreviewUrl(); as u) {
+          <video [attr.src]="u" controls playsinline class="media"></video>
+        } @else {
+          <video #preview autoplay muted playsinline class="media"></video>
+          @if (isRecording()) {
+            <div class="rec-badge">
+              <span class="rec-dot"></span>
+              <span>{{ recordSeconds() }}s</span>
+            </div>
+          }
+        }
+      </div>
+
+      @if (checkingVideo()) {
+        <p class="processing">{{ 'step.verify.processing' | t }}</p>
+      } @else if (videoDataUrl()) {
+        <div class="row-actions">
+          <button type="button" class="ghost" (click)="retakeVideo()">{{ 'step.verify.retake' | t }}</button>
+          <button type="button" class="cta" (click)="goReview()">
+            <span>{{ 'step.verify.next' | t }}</span>
+          </button>
+        </div>
+      } @else if (isRecording()) {
+        <button type="button" class="cta danger" (click)="stopRecording()">
+          <span>{{ 'step.verify.stop' | t }}</span>
+        </button>
+      } @else {
+        <button type="button" class="cta" (click)="startRecording()">
+          <span>{{ 'step.verify.record' | t }}</span>
+        </button>
+      }
+    }
+
+    @case ('review') {
+      <div class="review-grid">
+        @if (facePhoto(); as p) {
+          <figure class="review-photo">
+            <img [attr.src]="p" alt="" />
+            <figcaption>{{ 'step.verify.review.face' | t }}</figcaption>
+          </figure>
+        }
+        @if (videoDataUrl(); as v) {
+          <figure class="review-video">
+            <video [attr.src]="v" controls playsinline></video>
+            <figcaption>{{ 'step.verify.review.video' | t }}</figcaption>
+          </figure>
+        }
+      </div>
+
+      <button type="button" class="cta" [disabled]="!canContinue()" (click)="confirm()">
+        <span>{{ 'step.verify.confirm' | t }}</span>
+        <svg class="cta-arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    }
+  }
+</section>
