@@ -52,6 +52,20 @@
             </div>
           </dl>
 
+          <div class="totals">
+            <div class="totals-row">
+              <span class="totals-label">{{ 'step.offers.total.repayment' | t }}</span>
+              <span class="totals-value">{{ formatNaira(o.totalRepayment) }}</span>
+            </div>
+            <div class="totals-row">
+              <span class="totals-label">{{ 'step.offers.cost.credit' | t }}</span>
+              <span class="totals-value totals-value--accent">{{ formatNaira(o.costOfCredit) }}</span>
+            </div>
+            @if (o.totalFees > 0) {
+              <p class="totals-note">{{ 'step.offers.fees.included' | t }} · {{ formatNaira(o.totalFees) }}</p>
+            }
+          </div>
+
           <button type="button" class="pick" (click)="pick(o)">
             <span>{{ 'step.offers.pick' | t }}</span>
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">

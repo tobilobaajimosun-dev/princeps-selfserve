@@ -12,6 +12,9 @@ interface OfferView {
   amount: number;
   tenorMonths: number;
   monthly: number;
+  totalFees: number;
+  totalRepayment: number;
+  costOfCredit: number;
 }
 
 @Component({
@@ -42,7 +45,11 @@ export class OffersComponent implements OnInit {
       const amount = Math.min(eligibility.maxEligibleAmount, product.maxAmount);
       const tenor = eligibility.tenorMonths;
       const monthly = estimateMonthlyRepayment(amount, tenor, product.ratePercent, product.interestModel);
-      return { product, amount, tenorMonths: tenor, monthly };
+      const fees = calcFees(product, amount);
+      const totalFees = fees.reduce((sum, f) => sum + f.amount, 0);
+      const totalRepayment = monthly * tenor;
+      const costOfCredit = totalRepayment - amount + totalFees;
+      return { product, amount, tenorMonths: tenor, monthly, totalFees, totalRepayment, costOfCredit };
     }).filter((v) => v.amount >= v.product.minAmount);
 
     this.offers.set(views);
