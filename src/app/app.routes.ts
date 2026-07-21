@@ -100,28 +100,8 @@ export const routes: Routes = [
           import('./features/apply/salary/salary.component').then((m) => m.SalaryComponent),
       },
       {
-        path: 'eligibility',
-        canMatch: [requiresSalaryGuard],
-        loadComponent: () =>
-          import('./features/apply/eligibility/eligibility.component').then(
-            (m) => m.EligibilityComponent,
-          ),
-      },
-      {
-        path: 'offers',
-        canMatch: [requiresSalaryGuard],
-        loadComponent: () =>
-          import('./features/apply/offers/offers.component').then((m) => m.OffersComponent),
-      },
-      {
-        path: 'terms',
-        canMatch: [requiresOfferGuard],
-        loadComponent: () =>
-          import('./features/apply/terms/terms.component').then((m) => m.TermsComponent),
-      },
-      {
         path: 'profile',
-        canMatch: [requiresOfferGuard],
+        canMatch: [requiresSalaryGuard],
         loadComponent: () =>
           import('./features/apply/profile/profile.component').then((m) => m.ProfileComponent),
       },
@@ -132,8 +112,28 @@ export const routes: Routes = [
           import('./features/apply/bvn/bvn.component').then((m) => m.BvnComponent),
       },
       {
-        path: 'documents',
+        path: 'eligibility',
         canMatch: [requiresBvnGuard],
+        loadComponent: () =>
+          import('./features/apply/eligibility/eligibility.component').then(
+            (m) => m.EligibilityComponent,
+          ),
+      },
+      {
+        path: 'offers',
+        canMatch: [requiresBvnGuard],
+        loadComponent: () =>
+          import('./features/apply/offers/offers.component').then((m) => m.OffersComponent),
+      },
+      {
+        path: 'terms',
+        canMatch: [requiresOfferGuard],
+        loadComponent: () =>
+          import('./features/apply/terms/terms.component').then((m) => m.TermsComponent),
+      },
+      {
+        path: 'documents',
+        canMatch: [requiresOfferGuard],
         loadComponent: () =>
           import('./features/apply/documents/documents.component').then(
             (m) => m.DocumentsComponent,
@@ -141,7 +141,7 @@ export const routes: Routes = [
       },
       {
         path: 'submit',
-        canMatch: [requiresBvnGuard],
+        canMatch: [requiresOfferGuard],
         loadComponent: () =>
           import('./features/apply/submit/submit.component').then((m) => m.SubmitComponent),
       },

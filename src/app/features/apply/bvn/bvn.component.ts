@@ -72,7 +72,7 @@ export class BvnComponent {
         verified: true,
         matchedName: res.matchedName,
       });
-      await this.router.navigateByUrl('/apply/documents');
+      await this.router.navigateByUrl('/apply/eligibility');
     } finally {
       this.submitting.set(false);
     }

@@ -41,8 +41,8 @@ export class ProfileComponent {
   readonly submitting = signal(false);
 
   constructor() {
-    if (!this.state.offer()) {
-      void this.router.navigateByUrl('/apply/offers');
+    if (!this.state.salary()) {
+      void this.router.navigateByUrl('/apply/salary');
       return;
     }
     const saved = this.state.profile();
