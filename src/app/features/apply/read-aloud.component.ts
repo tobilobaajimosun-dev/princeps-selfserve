@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, computed, inject, signal } from '@angular/core';
 import { LangService } from '../../core/i18n/lang.service';
 
 const VOICE_LOCALE: Record<string, string> = {
@@ -17,9 +17,11 @@ const VOICE_LOCALE: Record<string, string> = {
       class="tts"
       (click)="toggle()"
       [class.is-speaking]="speaking()"
+      [class.is-unavailable]="!hasVoice()"
+      [disabled]="!supported()"
       [attr.aria-pressed]="speaking()"
-      [attr.aria-label]="speaking() ? 'Stop reading' : 'Read this screen aloud'"
-      [attr.title]="speaking() ? 'Stop' : 'Read aloud'"
+      [attr.aria-label]="ariaLabel()"
+      [attr.title]="titleAttr()"
     >
       @if (speaking()) {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -42,24 +44,68 @@ const VOICE_LOCALE: Record<string, string> = {
         background: transparent; border: 1px solid var(--hairline);
         color: var(--ink); border-radius: 50%;
         cursor: pointer;
-        transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+        transition: background 160ms ease, color 160ms ease, border-color 160ms ease, transform 120ms ease-out;
       }
-      .tts:hover { background: rgba(17,17,17,0.06); }
+      .tts:hover:not(:disabled) { background: rgba(17,17,17,0.06); }
+      .tts:active:not(:disabled) { transform: scale(0.96); }
       .tts:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+      .tts:disabled { opacity: 0.4; cursor: not-allowed; }
       .tts.is-speaking {
         background: var(--action-primary);
         color: var(--action-on-primary);
         border-color: var(--action-primary);
       }
+      .tts.is-unavailable:not(:disabled) { opacity: 0.7; }
+      @media (prefers-reduced-motion: reduce) {
+        .tts { transition: none; }
+      }
     `,
   ],
 })
-export class ReadAloudComponent {
+export class ReadAloudComponent implements OnDestroy {
   private readonly lang = inject(LangService);
   readonly speaking = signal(false);
+  private readonly voicesTick = signal(0);
+
+  readonly supported = computed(() =>
+    typeof window !== 'undefined' && 'speechSynthesis' in window,
+  );
+
+  readonly hasVoice = computed(() => {
+    this.voicesTick();
+    return !!this.pickVoice();
+  });
+
+  readonly ariaLabel = computed(() => {
+    if (this.speaking()) return 'Stop reading';
+    if (!this.hasVoice()) return `Read aloud (using English — no ${this.lang.lang().toUpperCase()} voice on this device)`;
+    return 'Read this screen aloud';
+  });
+
+  readonly titleAttr = computed(() => {
+    if (this.speaking()) return 'Stop';
+    if (!this.hasVoice()) return `No ${this.lang.lang().toUpperCase()} voice — will read in English`;
+    return 'Read aloud';
+  });
+
+  private voicesHandler = () => this.voicesTick.update((v) => v + 1);
+
+  constructor() {
+    if (this.supported()) {
+      window.speechSynthesis.addEventListener?.('voiceschanged', this.voicesHandler);
+      this.voicesTick.update((v) => v + 1);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.supported()) {
+      window.speechSynthesis.removeEventListener?.('voiceschanged', this.voicesHandler);
+      window.speechSynthesis.cancel();
+    }
+  }
 
   toggle(): void {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    if (!this.supported()) return;
     const synth = window.speechSynthesis;
     if (this.speaking()) {
       synth.cancel();
@@ -70,13 +116,32 @@ export class ReadAloudComponent {
     if (!text) return;
     synth.cancel();
     const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = VOICE_LOCALE[this.lang.lang()] ?? 'en-NG';
-    utter.rate = 1;
+    const voice = this.pickVoice();
+    if (voice) {
+      utter.voice = voice;
+      utter.lang = voice.lang;
+    } else {
+      utter.lang = 'en-NG';
+    }
+    utter.rate = 0.95;
     utter.pitch = 1;
     utter.onend = () => this.speaking.set(false);
     utter.onerror = () => this.speaking.set(false);
     this.speaking.set(true);
     synth.speak(utter);
+  }
+
+  private pickVoice(): SpeechSynthesisVoice | null {
+    if (!this.supported()) return null;
+    const target = VOICE_LOCALE[this.lang.lang()] ?? 'en-NG';
+    const base = target.split('-')[0];
+    const voices = window.speechSynthesis.getVoices();
+    return (
+      voices.find((v) => v.lang.toLowerCase() === target.toLowerCase()) ??
+      voices.find((v) => v.lang.toLowerCase().startsWith(base + '-')) ??
+      voices.find((v) => v.lang.toLowerCase().startsWith(base)) ??
+      null
+    );
   }
 
   private collectVisibleText(): string {
