@@ -1,0 +1,57 @@
+<section class="step">
+  <app-wizard-progress [current]="10" [total]="11" [label]="'step.docs.eyebrow' | t" />
+
+  <header class="head">
+    <h1 class="title">{{ 'step.docs.title' | t }}</h1>
+    <p class="subtitle">{{ 'step.docs.subtitle' | t }}</p>
+  </header>
+
+  <ul class="docs">
+    @for (spec of specs(); track spec.id) {
+      @let d = docFor(spec.id);
+      <li class="doc">
+        <div class="doc-body">
+          <h2 class="doc-label">{{ spec.labelKey | t }}</h2>
+          <p class="doc-hint">{{ spec.hintKey | t }}</p>
+          @if (d?.status === 'uploaded' && d?.fileName) {
+            <p class="doc-file">{{ d?.fileName }}</p>
+          }
+          @if (errors()[spec.id] === 'too-large') {
+            <p class="doc-error">{{ 'step.docs.too.large' | t }}</p>
+          } @else if (d?.status === 'failed') {
+            <p class="doc-error">{{ 'step.docs.failed' | t }}</p>
+          }
+        </div>
+
+        <div class="doc-action">
+          @if (d?.status === 'uploading') {
+            <span class="badge badge--pending">{{ 'step.docs.uploading' | t }}</span>
+          } @else if (d?.status === 'uploaded') {
+            <span class="badge badge--ok">{{ 'step.docs.uploaded' | t }}</span>
+            <label class="ghost-btn">
+              <input type="file" hidden (change)="onFile(spec.id, $event)" accept="image/*,application/pdf" />
+              {{ 'step.docs.replace' | t }}
+            </label>
+          } @else if (d?.status === 'failed') {
+            <label class="ghost-btn">
+              <input type="file" hidden (change)="onFile(spec.id, $event)" accept="image/*,application/pdf" />
+              {{ 'step.docs.retry' | t }}
+            </label>
+          } @else {
+            <label class="pill-btn">
+              <input type="file" hidden (change)="onFile(spec.id, $event)" accept="image/*,application/pdf" />
+              {{ 'step.docs.upload' | t }}
+            </label>
+          }
+        </div>
+      </li>
+    }
+  </ul>
+
+  <button type="button" class="cta" [disabled]="!allUploaded()" (click)="continue()">
+    <span>{{ 'step.docs.continue' | t }}</span>
+    <svg class="cta-arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+</section>

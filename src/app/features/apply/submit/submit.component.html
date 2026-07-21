@@ -1,0 +1,43 @@
+<section class="step">
+  <app-wizard-progress [current]="11" [total]="11" [label]="'step.submit.eyebrow' | t" />
+
+  <header class="head">
+    <h1 class="title">{{ 'step.submit.title' | t }}</h1>
+    <p class="subtitle">{{ 'step.submit.subtitle' | t }}</p>
+  </header>
+
+  <dl class="review">
+    @if (contact(); as c) {
+      <div>
+        <dt>{{ 'step.submit.contact' | t }}</dt>
+        <dd>{{ c.email }}<br /><span class="muted">{{ c.phone }}</span></dd>
+      </div>
+    }
+    @if (employment(); as e) {
+      <div>
+        <dt>{{ 'step.submit.employment' | t }}</dt>
+        <dd>{{ 'step.employment.' + (e.type === 'private-sector' ? 'private' : e.type === 'own-business' ? 'business' : e.type) | t }}</dd>
+      </div>
+    }
+    @if (offer(); as o) {
+      <div>
+        <dt>{{ 'step.submit.offer' | t }}</dt>
+        <dd>{{ o.productName }}<br /><span class="muted">{{ formatNaira(o.amount) }} · {{ o.tenorMonths }} months</span></dd>
+      </div>
+    }
+  </dl>
+
+  <label class="agree">
+    <input type="checkbox" [checked]="agreed()" (change)="toggleAgree($any($event.target).checked)" />
+    <span>{{ 'step.submit.confirm' | t }}</span>
+  </label>
+
+  <button type="button" class="cta" [disabled]="!canSubmit()" (click)="submit()">
+    <span>{{ submitting() ? ('step.submit.submitting' | t) : ('step.submit.submit' | t) }}</span>
+    @if (!submitting()) {
+      <svg class="cta-arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    }
+  </button>
+</section>

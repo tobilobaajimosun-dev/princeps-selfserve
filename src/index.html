@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Princeps</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@400,500,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <app-root></app-root>
+
+    <!--
+      Zoho SalesIQ live chat widget.
+      Replace `YOUR_WIDGET_CODE` with the widget code from
+      Zoho SalesIQ → Brand → Installation → Website.
+    -->
+    <script type="text/javascript">
+      window.$zoho = window.$zoho || {};
+      $zoho.salesiq = $zoho.salesiq || { ready: function () {} };
+    </script>
+    <script
+      id="zsiqscript"
+      src="https://salesiq.zohopublic.com/widget?wc=YOUR_WIDGET_CODE"
+      defer
+    ></script>
+  </body>
+</html>

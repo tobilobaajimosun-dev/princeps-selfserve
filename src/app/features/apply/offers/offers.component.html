@@ -1,0 +1,65 @@
+<section class="step">
+  <app-wizard-progress [current]="6" [total]="11" [label]="'step.offers.eyebrow' | t" />
+
+  <header class="head">
+    <h1 class="title">{{ 'step.offers.title' | t }}</h1>
+    <p class="subtitle">{{ 'step.offers.subtitle' | t }}</p>
+  </header>
+
+  <ul class="offers">
+    @for (o of offers(); track o.product.id) {
+      <li class="offer">
+        <div
+          class="hero"
+          [style.background]="'linear-gradient(135deg, ' + o.product.hero.from + ' 0%, ' + o.product.hero.to + ' 100%)'"
+          aria-hidden="true"
+        >
+          <svg class="hero-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path [attr.d]="o.product.hero.glyph" />
+          </svg>
+          <span class="hero-badge">{{ o.product.ratePercent }}%</span>
+        </div>
+
+        <div class="offer-body">
+          <div class="offer-head">
+            <h2 class="offer-name">{{ o.product.name }}</h2>
+          </div>
+
+          <dl class="offer-facts">
+            <div>
+              <dt>{{ 'step.offers.amount' | t }}</dt>
+              <dd class="big">{{ formatNaira(o.amount) }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'step.offers.monthly' | t }}</dt>
+              <dd>{{ formatNaira(o.monthly) }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'step.offers.rate' | t }}</dt>
+              <dd>{{ o.product.ratePercent }}%</dd>
+            </div>
+            <div>
+              <dt>{{ 'step.offers.interestType' | t }}</dt>
+              <dd class="soft">{{ modelKey(o.product.interestModel) | t }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'step.offers.frequency' | t }}</dt>
+              <dd class="soft">{{ frequencyKey(o.product.repaymentFrequency) | t }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'step.offers.tenor' | t }}</dt>
+              <dd class="soft">{{ o.tenorMonths }} {{ 'step.offers.months' | t }}</dd>
+            </div>
+          </dl>
+
+          <button type="button" class="pick" (click)="pick(o)">
+            <span>{{ 'step.offers.pick' | t }}</span>
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </li>
+    }
+  </ul>
+</section>

@@ -1,0 +1,83 @@
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
+import { TPipe } from '../../../core/i18n/t.pipe';
+import { WizardProgressComponent } from '../wizard-progress.component';
+import {
+  ApplicationStateService,
+  EmploymentType,
+} from '../../../core/application/application-state.service';
+
+interface Option {
+  type: EmploymentType;
+  labelKey: string;
+  hintKey: string;
+  live: boolean;
+}
+
+const OPTIONS: Option[] = [
+  { type: 'government', labelKey: 'step.employment.government', hintKey: 'step.employment.government.hint', live: true },
+  { type: 'paramilitary', labelKey: 'step.employment.paramilitary', hintKey: 'step.employment.paramilitary.hint', live: true },
+  { type: 'corper', labelKey: 'step.employment.corper', hintKey: 'step.employment.corper.hint', live: true },
+  { type: 'private-sector', labelKey: 'step.employment.private', hintKey: 'step.employment.private.hint', live: false },
+  { type: 'own-business', labelKey: 'step.employment.business', hintKey: 'step.employment.business.hint', live: false },
+];
+
+@Component({
+  selector: 'app-employment',
+  imports: [TPipe, WizardProgressComponent, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './employment.component.html',
+  styleUrl: './employment.component.css',
+})
+export class EmploymentComponent {
+  private readonly state = inject(ApplicationStateService);
+  private readonly router = inject(Router);
+
+  readonly options = OPTIONS;
+  readonly selected = signal<EmploymentType | null>(this.state.employment()?.type ?? null);
+  readonly submitting = signal(false);
+
+  readonly nyscMonths = new FormControl<number | null>(
+    this.state.employment()?.nyscMonthsRemaining ?? null,
+    { validators: [Validators.required, Validators.min(1), Validators.max(11)] },
+  );
+
+  readonly showCorperMonths = computed(() => this.selected() === 'corper');
+  readonly selectedOption = computed(() =>
+    OPTIONS.find((o) => o.type === this.selected()) ?? null,
+  );
+  readonly canContinue = computed(() => {
+    const opt = this.selectedOption();
+    if (!opt) return false;
+    if (!opt.live) return true;
+    if (opt.type === 'corper') return this.nyscMonths.valid;
+    return true;
+  });
+
+  select(type: EmploymentType): void {
+    this.selected.set(type);
+  }
+
+  async continue(): Promise<void> {
+    const opt = this.selectedOption();
+    if (!opt || this.submitting()) return;
+
+    if (!opt.live) {
+      await this.router.navigate(['/apply/waitlist'], { queryParams: { type: opt.type } });
+      return;
+    }
+
+    this.submitting.set(true);
+    try {
+      this.state.setEmployment({
+        type: opt.type,
+        nyscMonthsRemaining:
+          opt.type === 'corper' ? (this.nyscMonths.value ?? undefined) : undefined,
+      });
+      await this.router.navigateByUrl('/apply/salary');
+    } finally {
+      this.submitting.set(false);
+    }
+  }
+}

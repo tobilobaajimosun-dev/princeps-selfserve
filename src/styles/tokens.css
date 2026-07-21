@@ -1,0 +1,105 @@
+/* Princeps design tokens — see design.md §3 */
+
+:root {
+  /* Brand — navy (primary) */
+  --navy-950: #071e3d;
+  --navy-900: #0b2b55;
+  --navy-800: #123869;
+  --navy-100: #e4eaf3;
+
+  /* Brand — cyan (secondary accent) */
+  --cyan-600: #2ea9c0;
+  --cyan-500: #51c4d9;
+  --cyan-100: #e5f6fa;
+
+  /* Brand — orange (attention, reserved) */
+  --orange-600: #d45217;
+  --orange-500: #f16522;
+  --orange-100: #fdeae0;
+
+  /* Neutrals */
+  --surface-0: #ffffff;
+  --surface-1: #fafafb;
+  --surface-2: #f3f4f6;
+  --surface-3: #e5e7eb;
+  --surface-4: #d1d5db;
+
+  --text-primary: #111214;
+  --text-secondary: #5a5d63;
+  --text-tertiary: #8a8d93;
+  --text-disabled: #b6b8bd;
+  --text-on-navy: #ffffff;
+  --text-on-orange: #ffffff;
+  --text-on-cyan: #0b2b55;
+
+  /* Semantic */
+  --success: #16a34a;
+  --success-soft: #e7f6ec;
+  --warning: #d97706;
+  --warning-soft: #fef3e2;
+  --danger: #dc2626;
+  --danger-soft: #fdecec;
+  --info: #0b2b55;
+  --info-soft: #e4eaf3;
+
+  /* Typography */
+  --font-display: 'Clash Display', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'General Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Editorial surface — Contra-leaning cream, less "web app white" */
+  --canvas: #f5f2ec;
+  --ink: #111111;
+  --ink-soft: #4a4a4a;
+  --ink-muted: #8a8a8a;
+  --hairline: rgba(17, 17, 17, 0.08);
+  --hairline-strong: rgba(17, 17, 17, 0.16);
+
+  /* Semantic action tokens — resolve to the brand navy so every CTA/focus
+     ring/link routes through one variable. Change here to reskin globally. */
+  --action-primary: var(--navy-900);
+  --action-primary-hover: var(--navy-800);
+  --action-primary-active: var(--navy-950);
+  --action-on-primary: var(--text-on-navy);
+  --accent-cool: var(--cyan-500);
+  --accent-warm: var(--orange-500);
+  --focus-ring: 0 0 0 3px var(--canvas), 0 0 0 5px var(--navy-900);
+
+  /* Polaris-style input surface */
+  --input-bg: #ffffff;
+  --input-border: #babec3;
+  --input-border-hover: #8a8f95;
+  --input-border-focus: var(--navy-900);
+  --input-shadow-focus: 0 0 0 3px rgba(11, 43, 85, 0.18);
+  --input-radius: 10px;
+  --input-height: 44px;
+
+  /* Spacing (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Radius */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 32px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-1: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-2: 0 4px 12px rgba(16, 24, 40, 0.06);
+  --shadow-3: 0 12px 32px rgba(16, 24, 40, 0.1);
+  --shadow-4: 0 24px 64px rgba(16, 24, 40, 0.14);
+  --shadow-focus: 0 0 0 3px rgba(11, 43, 85, 0.28);
+}

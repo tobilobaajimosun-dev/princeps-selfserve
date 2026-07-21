@@ -1,0 +1,18 @@
+<section class="step">
+  <header class="head">
+    <h1 class="title">{{ 'waitlist.title' | t }}</h1>
+    <p class="subtitle">{{ 'waitlist.body' | t }}</p>
+  </header>
+
+  @if (!joined()) {
+    <button type="button" class="cta" [disabled]="submitting()" (click)="join()">
+      <span>{{ 'waitlist.join' | t }}</span>
+      <svg class="cta-arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  } @else {
+    <p class="ok">{{ 'waitlist.joined' | t }}</p>
+    <button type="button" class="link-btn" (click)="home()">{{ 'waitlist.back' | t }}</button>
+  }
+</section>
