@@ -92,6 +92,15 @@ const SUPPORT_WHATSAPP = '2348001234567';
         padding: var(--space-4);
         box-shadow: 0 20px 60px -20px rgba(11, 46, 91, 0.35);
         display: flex; flex-direction: column; gap: 4px;
+        transform-origin: bottom right;
+        animation: panel-in 180ms cubic-bezier(0.2, 0.7, 0.1, 1) both;
+      }
+      @keyframes panel-in {
+        from { opacity: 0; transform: scale(0.94) translateY(4px); }
+        to   { opacity: 1; transform: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .panel { animation: none; }
       }
       .panel-title { margin: 0 0 2px; font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--ink); }
       .panel-sub { margin: 0 0 var(--space-2); font-size: 13px; color: var(--ink-muted); }

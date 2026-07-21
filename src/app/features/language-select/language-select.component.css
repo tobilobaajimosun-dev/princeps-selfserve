@@ -220,6 +220,25 @@
 .signin:hover { background: var(--ink); color: var(--action-on-primary); }
 .signin:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
+/* Opening sequence — brand, headline, list rows, footer arrive in a soft cascade.
+   Each element animates once on first paint; no infinite loops. */
+.brand-row  { animation: rise 420ms cubic-bezier(0.2, 0.7, 0.1, 1) both;    animation-delay:   0ms; }
+.title      { animation: rise 480ms cubic-bezier(0.2, 0.7, 0.1, 1) both;    animation-delay:  80ms; }
+.subtitle   { animation: rise 480ms cubic-bezier(0.2, 0.7, 0.1, 1) both;    animation-delay: 160ms; }
+.lang-list li {
+  animation: rise 420ms cubic-bezier(0.2, 0.7, 0.1, 1) both;
+  animation-delay: calc(240ms + var(--i, 0) * 60ms);
+}
+.footer     { animation: rise 480ms cubic-bezier(0.2, 0.7, 0.1, 1) both;    animation-delay: 520ms; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lang-row, .cta, .cta-arrow, .mark { transition: none; }
+  .brand-row, .title, .subtitle, .lang-list li, .footer {
+    animation: none; opacity: 1; transform: none;
+  }
 }

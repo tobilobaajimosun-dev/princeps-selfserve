@@ -40,6 +40,28 @@ button {
   font-family: inherit;
 }
 
+/* Wizard step entry — bridges the router-outlet teleport between /apply/* steps.
+   Every .step fades + lifts on mount. No scale (text must not resample). */
+.step {
+  animation: step-in 240ms cubic-bezier(0.2, 0.7, 0.1, 1) both;
+}
+
+@keyframes step-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Server-error banner entry — small fade + drop-in from above.
+   Applies to every .server-error created by @if in a form. */
+.server-error {
+  animation: err-in 180ms ease-out both;
+}
+
+@keyframes err-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -47,4 +69,5 @@ button {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+  .step, .server-error { animation: none; opacity: 1; transform: none; }
 }

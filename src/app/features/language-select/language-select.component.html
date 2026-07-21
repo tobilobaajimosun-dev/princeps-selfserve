@@ -9,8 +9,8 @@
     <p class="subtitle">{{ 'lang.select.subtitle' | t }}</p>
 
     <ul class="lang-list" role="radiogroup" [attr.aria-label]="'lang.select.title' | t">
-      @for (l of languages; track l.code) {
-        <li>
+      @for (l of languages; track l.code; let i = $index) {
+        <li [style.--i]="i">
           <button
             type="button"
             class="lang-row"

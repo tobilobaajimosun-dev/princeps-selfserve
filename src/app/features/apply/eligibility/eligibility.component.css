@@ -1,5 +1,15 @@
 .step { display: flex; flex-direction: column; gap: var(--space-8); }
-.head { display: flex; flex-direction: column; gap: var(--space-3); }
+.head {
+  display: flex; flex-direction: column; gap: var(--space-3);
+  animation: phase-in 220ms ease-out both;
+}
+@keyframes phase-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .head { animation: none; opacity: 1; }
+}
 
 .title {
   margin: 0;

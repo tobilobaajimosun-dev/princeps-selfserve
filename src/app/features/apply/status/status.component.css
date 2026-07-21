@@ -11,6 +11,23 @@
   color: var(--action-primary);
 }
 
+/* Approved: stroke-draw the ring, then the check. Rare moment — worth the beat. */
+.draw-circle {
+  stroke-dasharray: 69.12;   /* 2π·11 */
+  stroke-dashoffset: 69.12;
+  animation: draw 340ms cubic-bezier(0.2, 0.7, 0.1, 1) forwards;
+}
+.draw-check {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  animation: draw 240ms cubic-bezier(0.2, 0.7, 0.1, 1) 220ms forwards;
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .draw-circle, .draw-check { animation: none; stroke-dashoffset: 0; }
+}
+
 .status[data-status="approved"] .mark { color: var(--success); }
 .status[data-status="declined"] .mark { color: var(--danger); }
 .status[data-status="review"] .mark { color: var(--warning); }
